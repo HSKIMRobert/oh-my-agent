@@ -1,7 +1,7 @@
 {
   "name": "oh-my-agent",
   "version": "6.5.7",
-  "releaseDate": "2026-05-03T11:40:52.039Z",
+  "releaseDate": "2026-05-04T01:30:56.164Z",
   "repository": "https://github.com/first-fluke/oh-my-agent",
   "files": [
     {
@@ -1411,13 +1411,13 @@
     },
     {
       "path": ".agents/workflows/ralph/resources/judge-protocol.md",
-      "sha256": "f3eef51e1aaa7b392c0e07651088a957f44fe1a1ca8b4bd2e1eb202fe444c4cd",
-      "size": 3597
+      "sha256": "18dee1410127d9b1d84faf4abf20ff294c2b4f8739295d1beba804bef1c9e255",
+      "size": 7912
     },
     {
       "path": ".agents/workflows/ralph.md",
-      "sha256": "2418c8254896041b18dc26f7c8517d217245769cdeff4506dd251ac6f1361e0b",
-      "size": 7823
+      "sha256": "21099162546da8b2604e28ad83627078ad9ee5517761ac3c4567cd2c7141f5ec",
+      "size": 11164
     },
     {
       "path": ".agents/workflows/review.md",
