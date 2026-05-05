@@ -1,0 +1,248 @@
+{
+  "harness": "superpowers",
+  "package_manager": "npm",
+  "axes": {
+    "functional": {
+      "items": {
+        "build-pass": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "exit 0"
+        },
+        "boot-pass": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "HTTP 200 within 45s"
+        },
+        "journey-onboard": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "Landing page shows 'Welcome to WonderWorld!' with a name input and 'Let's Go!' button visible without scrolling."
+        },
+        "journey-builder": {
+          "pass": 1,
+          "score": 4,
+          "max": 4,
+          "evidence": "Three.js canvas renders at 1504x1050 and a sidebar offers 12 shape/object pickers (Block, Ball, Pillar, Cone, Ring, Tree, House, Person, Rock, Flower, Cloud, Star)."
+        },
+        "journey-ai": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "AI buddy 'Sparky' is present as a floating panel; typing 'help me' returns 'Your world is waiting! What do you want to add first?'"
+        },
+        "journey-save": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "After clicking Save and reloading, the dashboard shows 'My Worlds (1)' with 'TestUser's World' listing 1 object, and re-opening loads the world with its name preserved."
+        },
+        "journey-gallery": {
+          "pass": 1,
+          "score": 2,
+          "max": 2,
+          "evidence": "The /gallery route renders a 'My Worlds' page displaying a card for 'TestUser's World' with object count and date."
+        },
+        "lint-clean": {
+          "pass": 0,
+          "score": 0,
+          "max": 5,
+          "evidence": "exit 1"
+        },
+        "ts-clean": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "exit 0"
+        }
+      },
+      "total": 30,
+      "max": 35
+    },
+    "spec": {
+      "items": {
+        "spec-product-concept": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "final-reply has brief mention but no substantive concept summary (problem, audience, value prop)"
+        },
+        "spec-personas": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "no persona document or section found anywhere in project"
+        },
+        "spec-journeys": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "no user journey document or section found anywhere in project"
+        },
+        "spec-feature-list": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply lists 7+ categorized features under Core features delivered"
+        },
+        "spec-ia": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply App structure section with 4 routes and descriptions of content per route"
+        },
+        "spec-ui-direction": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "no design direction document; code has styling but no articulated design rationale"
+        },
+        "spec-tech-arch": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "final-reply has single sentence tech stack line, insufficient for 3-sentence threshold"
+        },
+        "spec-db-schema": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "src/types/world.ts:1-44 defines WorldObject, World, CreativeChallenge, AIMessage interfaces"
+        },
+        "spec-ai-prompts": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "src/lib/ai-prompts.ts:14-98 comprehensive system prompt with rules, context-aware prompts, reflection prompts"
+        },
+        "spec-safety": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "src/lib/ai-prompts.ts:27-34 lists 5 explicit NEVER rules for child safety in AI interactions"
+        },
+        "spec-impl-plan": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "no implementation plan document found anywhere in project"
+        },
+        "spec-starter-code": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "src/ directory with 20+ files: components, store, types, API routes, pages"
+        },
+        "spec-priority-screens": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "no prioritized list of screens/components to build first found anywhere"
+        },
+        "spec-real-api-bonus": {
+          "pass": true,
+          "score": 2,
+          "max": 2,
+          "evidence": "real SDK/endpoint + env config"
+        }
+      },
+      "total": 8,
+      "max": 15
+    },
+    "visual": {
+      "items": {
+        "visual-anti-patterns": {
+          "pass": 1,
+          "score": 4,
+          "max": 5,
+          "evidence": "Soft pink-to-blue gradient background visible on landing and gallery pages counts as one anti-pattern; no orbs, no nested cards, no clutter, text sizes adequate."
+        },
+        "visual-child-friendly": {
+          "pass": 1,
+          "score": 4,
+          "max": 5,
+          "evidence": "Emoji-based object palette, friendly Sparky AI buddy, big colorful buttons, and minimal text density are well-suited for children; small icon-only undo/redo buttons slightly reduce the score."
+        },
+        "visual-consistency": {
+          "pass": 1,
+          "score": 3,
+          "max": 5,
+          "evidence": "Purple/magenta heading color and rounded card radii are consistent, but button styles drift across pages (pink gradient on landing, solid purple on gallery, green on builder toolbar)."
+        },
+        "visual-accessibility": {
+          "pass": 1,
+          "score": 3,
+          "max": 5,
+          "evidence": "Good text-on-white contrast and visible selection rings on theme picker, but undo/redo and close buttons are icon-only without labels and no responsive-width evidence is shown."
+        }
+      },
+      "total": 14,
+      "max": 20
+    },
+    "engineering": {
+      "items": {
+        "eng-breadth": {
+          "pass": true,
+          "score": 2.5,
+          "max": 4,
+          "evidence": "routes=4 components=9"
+        },
+        "eng-type-safety": {
+          "pass": true,
+          "score": 4.0,
+          "max": 4,
+          "evidence": "strict=true any_count=0"
+        },
+        "eng-modularity": {
+          "pass": true,
+          "score": 3.5,
+          "max": 4,
+          "evidence": "max_depth=8 max_file_lines=258"
+        },
+        "eng-transparency": {
+          "pass": false,
+          "score": 0.0,
+          "max": 4,
+          "evidence": "deferred_markers=0"
+        },
+        "eng-env-safety": {
+          "pass": true,
+          "score": 4,
+          "max": 4,
+          "evidence": "env config present, no hardcoded keys"
+        }
+      },
+      "total": 14,
+      "max": 20
+    },
+    "efficiency": {
+      "items": {
+        "eff-turns": {
+          "pass": true,
+          "score": 3,
+          "max": 4,
+          "evidence": "39 turns"
+        },
+        "eff-time": {
+          "pass": true,
+          "score": 2,
+          "max": 3,
+          "evidence": "493s"
+        },
+        "eff-cost": {
+          "pass": true,
+          "score": 3,
+          "max": 3,
+          "evidence": "$0.067/file (1.28248425 USD / 19 files)"
+        }
+      },
+      "total": 8,
+      "max": 10
+    }
+  },
+  "total": 74.0,
+  "max": 100.0
+}

@@ -1,0 +1,13 @@
+{
+  "harness": "superpowers",
+  "package_manager": "npm",
+  "total": 74.0,
+  "max": 100.0,
+  "by_axis": {
+    "functional": 30,
+    "spec": 8,
+    "visual": 14,
+    "engineering": 14,
+    "efficiency": 8
+  }
+}

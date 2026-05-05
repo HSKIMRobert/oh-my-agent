@@ -1,0 +1,248 @@
+{
+  "harness": "omc",
+  "package_manager": "npm",
+  "axes": {
+    "functional": {
+      "items": {
+        "build-pass": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "exit 0"
+        },
+        "boot-pass": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "HTTP 200 within 45s"
+        },
+        "journey-onboard": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "Landing page shows a clearly visible 'Start Creating! 🚀' button without scrolling, linking to /onboarding."
+        },
+        "journey-builder": {
+          "pass": 1,
+          "score": 4,
+          "max": 4,
+          "evidence": "Three.js Canvas renders at 1472x1096 with a floor/grid, and a sidebar shows object/shape pickers (Shapes, Nature, Build, Friends categories with Box, Ball, Pillar, Cone items)."
+        },
+        "journey-ai": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "Creative Buddy AI panel found in right sidebar; typing 'help me' and clicking Send returned a non-empty response: 'Let's build something amazing! What's the first thing you'd put in your world?'"
+        },
+        "journey-save": {
+          "pass": 1,
+          "score": 1.5,
+          "max": 3,
+          "evidence": "Save button exists and persists world data to localStorage, but reloading the page redirects to /onboarding instead of restoring the builder with the saved state."
+        },
+        "journey-gallery": {
+          "pass": 1,
+          "score": 2,
+          "max": 2,
+          "evidence": "Gallery at /gallery renders a 'My Worlds' grid showing the saved 'Test World' card with object count, environment name, and Open/Delete actions."
+        },
+        "lint-clean": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "exit 0"
+        },
+        "ts-clean": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "exit 0"
+        }
+      },
+      "total": 33.5,
+      "max": 35
+    },
+    "spec": {
+      "items": {
+        "spec-product-concept": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply + src/app/page.tsx:20-34 — DreamWorlds described as AI-powered 3D world builder for children with tagline, feature cards, and creative challenges"
+        },
+        "spec-personas": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No persona definitions found in any file or the final reply"
+        },
+        "spec-journeys": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No user journey documentation; onboarding flow exists in code but no written journey narrative"
+        },
+        "spec-feature-list": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply — Key Features section lists 7 distinct features with descriptions (3D Canvas, 8 Environments, AI Companion, Edit/Explore, Undo/Redo, Persistence, Child-friendly UI)"
+        },
+        "spec-ia": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "final-reply has a route table (5 entries) but no information architecture document describing navigation hierarchy, content organization, or sitemap"
+        },
+        "spec-ui-direction": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No UX/UI design direction document; styling exists in code but no written design rationale, color system, or typography guidance"
+        },
+        "spec-tech-arch": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No architecture document; tech stack is inferable from package.json and code but no written architecture description with >= 3 sentences"
+        },
+        "spec-db-schema": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "src/types/world.ts defines TypeScript interfaces but no database schema proposal document; localStorage persistence only, no DB discussed"
+        },
+        "spec-ai-prompts": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "src/app/api/ai/route.ts:3-39 — CREATIVE_PROMPTS object with 5 categories (start/explore/extend/reflect/challenge), contextual selection logic, and OpenAI system prompt at line 96"
+        },
+        "spec-safety": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No safety/moderation document; only a brief system prompt mention of 'child (under grade 6)' at route.ts:96"
+        },
+        "spec-impl-plan": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No implementation plan found in any file or the final reply"
+        },
+        "spec-starter-code": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "15 source files across src/ implementing full MVP: pages, components, store, types, lib, API route"
+        },
+        "spec-priority-screens": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply — App Structure table lists 5 routes/screens with purposes; src/components/builder/ contains 5 component files for the builder screen"
+        },
+        "spec-real-api-bonus": {
+          "pass": true,
+          "score": 2,
+          "max": 2,
+          "evidence": "real SDK/endpoint + env config"
+        }
+      },
+      "total": 7,
+      "max": 15
+    },
+    "visual": {
+      "items": {
+        "visual-anti-patterns": {
+          "pass": 1,
+          "score": 3,
+          "max": 5,
+          "evidence": "Two anti-patterns: some AI suggestion-chip and metadata text appears below 16px equivalent; builder page shows >6 distinct UI groups simultaneously (top bar, category tabs, object grid, 3D canvas, AI header, chat messages, suggestion chips, chat input)."
+        },
+        "visual-child-friendly": {
+          "pass": 1,
+          "score": 4,
+          "max": 5,
+          "evidence": "Playful emoji-rich UI with friendly AI persona, large CTA buttons, and low text density; the builder's AI panel suggestion chips are slightly small for young children."
+        },
+        "visual-consistency": {
+          "pass": 1,
+          "score": 4,
+          "max": 5,
+          "evidence": "Consistent purple primary color, pill-shaped buttons, and rounded cards across all pages; minor drift in page backgrounds (solid lavender vs purple-to-mint gradient on the save modal)."
+        },
+        "visual-accessibility": {
+          "pass": 0,
+          "score": 2,
+          "max": 5,
+          "evidence": "Good dark-purple-on-white text contrast and text labels on most buttons (Shapes, Explore, Save); however no visible focus rings anywhere, the gallery trash button is icon-only, and no narrow-width/responsive evidence."
+        }
+      },
+      "total": 13,
+      "max": 20
+    },
+    "engineering": {
+      "items": {
+        "eng-breadth": {
+          "pass": true,
+          "score": 2.5,
+          "max": 4,
+          "evidence": "routes=4 components=5"
+        },
+        "eng-type-safety": {
+          "pass": true,
+          "score": 4.0,
+          "max": 4,
+          "evidence": "strict=true any_count=0"
+        },
+        "eng-modularity": {
+          "pass": true,
+          "score": 4.0,
+          "max": 4,
+          "evidence": "max_depth=8 max_file_lines=172"
+        },
+        "eng-transparency": {
+          "pass": false,
+          "score": 0.0,
+          "max": 4,
+          "evidence": "deferred_markers=0"
+        },
+        "eng-env-safety": {
+          "pass": true,
+          "score": 4,
+          "max": 4,
+          "evidence": "env config present, no hardcoded keys"
+        }
+      },
+      "total": 14.5,
+      "max": 20
+    },
+    "efficiency": {
+      "items": {
+        "eff-turns": {
+          "pass": false,
+          "score": 1,
+          "max": 4,
+          "evidence": "61 turns"
+        },
+        "eff-time": {
+          "pass": true,
+          "score": 2,
+          "max": 3,
+          "evidence": "542s"
+        },
+        "eff-cost": {
+          "pass": true,
+          "score": 2,
+          "max": 3,
+          "evidence": "$0.128/file (1.9190407500000004 USD / 15 files)"
+        }
+      },
+      "total": 5,
+      "max": 10
+    }
+  },
+  "total": 73.0,
+  "max": 100.0
+}

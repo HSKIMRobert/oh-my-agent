@@ -1,0 +1,9 @@
+{
+  "harness": "oma",
+  "items": {
+    "visual-anti-patterns":  { "score": 4, "max": 5, "notes": "One anti-pattern: sidebar category labels and landing-page card descriptions appear smaller than 16px; no gradient orbs, no purple-to-blue backgrounds, no nested cards, no cluttered dashboards." },
+    "visual-child-friendly": { "score": 5, "max": 5, "notes": "Emoji-based object palette, friendly AI buddy Sparky with suggestion pills, big tappable toolbar buttons, minimal text density, warm calm color palette throughout." },
+    "visual-consistency":    { "score": 4, "max": 5, "notes": "Consistent warm beige backgrounds, coral accent color, rounded corners, and typography across landing/builder/gallery; minor drift in gallery Play/Edit button color treatment versus landing buttons." },
+    "visual-accessibility":  { "score": 3, "max": 5, "notes": "Good text-on-background contrast throughout and clear text labels on toolbar and palette icons; no visible focus rings and no evidence of narrow-width responsive behavior." }
+  }
+}

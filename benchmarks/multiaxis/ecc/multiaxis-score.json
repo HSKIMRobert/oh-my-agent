@@ -1,0 +1,248 @@
+{
+  "harness": "ecc",
+  "package_manager": "pnpm",
+  "axes": {
+    "functional": {
+      "items": {
+        "build-pass": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "exit 0"
+        },
+        "boot-pass": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "HTTP 200 within 45s"
+        },
+        "journey-onboard": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "Landing page shows a clearly visible 'Start Creating' button linked to /onboarding without scrolling."
+        },
+        "journey-builder": {
+          "pass": 1,
+          "score": 4,
+          "max": 4,
+          "evidence": "Three.js canvas renders at 2064x1028 and a sidebar displays 10 object pickers (Box, Ball, Pillar, Cone, Donut, Tree, House, Star, Cloud, Rock)."
+        },
+        "journey-ai": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "AI companion panel opens with input field; typing 'help me' returns a non-empty response about placing objects in the world."
+        },
+        "journey-save": {
+          "pass": 1,
+          "score": 1.5,
+          "max": 3,
+          "evidence": "Save button exists and persists world to gallery, but reloading /builder resets the world name to 'My World' instead of restoring saved state."
+        },
+        "journey-gallery": {
+          "pass": 1,
+          "score": 2,
+          "max": 2,
+          "evidence": "Gallery at /gallery renders a 'My Worlds' heading with a saved world card showing name, object count, and date."
+        },
+        "lint-clean": {
+          "pass": 0,
+          "score": 0,
+          "max": 5,
+          "evidence": "exit 1"
+        },
+        "ts-clean": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "exit 0"
+        }
+      },
+      "total": 28.5,
+      "max": 35
+    },
+    "spec": {
+      "items": {
+        "spec-product-concept": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "final-reply mentions Worldcraft but only as a feature list, not a substantive product concept summary with problem statement, target audience rationale, or value proposition"
+        },
+        "spec-personas": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No persona definitions found in any file or the final reply"
+        },
+        "spec-journeys": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No user journey documentation found anywhere in the project"
+        },
+        "spec-feature-list": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply contains a table of routes/features plus Builder Workspace bullet list with 6+ distinct entries"
+        },
+        "spec-ia": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No information architecture document or section found"
+        },
+        "spec-ui-direction": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No UX/UI design direction document; final reply mentions Fredoka font and Tailwind but not a substantive design direction"
+        },
+        "spec-tech-arch": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply Tech Stack section lists 5 distinct technology choices with roles; src/types/world.ts and stores show architecture in code"
+        },
+        "spec-db-schema": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "src/types/world.ts:1-35 defines WorldObject, WorldProject, AiMessage interfaces serving as the data schema"
+        },
+        "spec-ai-prompts": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "src/app/api/ai/route.ts:39-40 contains full system prompt design plus 15 creative prompts and contextual prompt logic"
+        },
+        "spec-safety": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No safety or moderation considerations documented; only the system prompt mentions 'children under 12' but no safety policy"
+        },
+        "spec-impl-plan": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "No implementation plan found in any file or the final reply"
+        },
+        "spec-starter-code": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "src/ directory contains 25 files across app/, components/, stores/, types/, lib/ forming a complete starter code structure"
+        },
+        "spec-priority-screens": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply table lists 5 routes (/, /onboarding, /builder, /gallery, /api/ai) as priority screens with descriptions"
+        },
+        "spec-real-api-bonus": {
+          "pass": true,
+          "score": 2,
+          "max": 2,
+          "evidence": "real SDK/endpoint + env config"
+        }
+      },
+      "total": 8,
+      "max": 15
+    },
+    "visual": {
+      "items": {
+        "visual-anti-patterns": {
+          "pass": 1,
+          "score": 3,
+          "max": 5,
+          "evidence": "Gradient orbs/blobs floating on the landing page (yellow circle, pink square, purple circle, green square); feature card body text on landing page appears smaller than 16px"
+        },
+        "visual-child-friendly": {
+          "pass": 1,
+          "score": 4,
+          "max": 5,
+          "evidence": "Large tappable emoji-labeled objects, playful tone in AI buddy, calm pastel palette, minimal text density; sidebar items could be slightly larger"
+        },
+        "visual-consistency": {
+          "pass": 1,
+          "score": 4,
+          "max": 5,
+          "evidence": "Consistent type ramp, card radii, and color palette across pages; minor drift in button accent colors between builder (green Save) and landing/gallery (coral primary)"
+        },
+        "visual-accessibility": {
+          "pass": 0,
+          "score": 2,
+          "max": 5,
+          "evidence": "Good dark-on-light text contrast on most surfaces and text labels on nearly all buttons; no visible focus rings anywhere, no responsive/narrow-width evidence, and some light-colored button text (Open, suggestion chips) with questionable contrast"
+        }
+      },
+      "total": 13,
+      "max": 20
+    },
+    "engineering": {
+      "items": {
+        "eng-breadth": {
+          "pass": true,
+          "score": 3.0,
+          "max": 4,
+          "evidence": "routes=4 components=13"
+        },
+        "eng-type-safety": {
+          "pass": true,
+          "score": 4.0,
+          "max": 4,
+          "evidence": "strict=true any_count=0"
+        },
+        "eng-modularity": {
+          "pass": true,
+          "score": 4.0,
+          "max": 4,
+          "evidence": "max_depth=8 max_file_lines=167"
+        },
+        "eng-transparency": {
+          "pass": false,
+          "score": 0.0,
+          "max": 4,
+          "evidence": "deferred_markers=0"
+        },
+        "eng-env-safety": {
+          "pass": true,
+          "score": 4,
+          "max": 4,
+          "evidence": "env config present, no hardcoded keys"
+        }
+      },
+      "total": 15,
+      "max": 20
+    },
+    "efficiency": {
+      "items": {
+        "eff-turns": {
+          "pass": false,
+          "score": 1,
+          "max": 4,
+          "evidence": "79 turns"
+        },
+        "eff-time": {
+          "pass": true,
+          "score": 1,
+          "max": 3,
+          "evidence": "620s"
+        },
+        "eff-cost": {
+          "pass": true,
+          "score": 2,
+          "max": 3,
+          "evidence": "$0.167/file (3.8420335499999996 USD / 23 files)"
+        }
+      },
+      "total": 4,
+      "max": 10
+    }
+  },
+  "total": 68.5,
+  "max": 100.0
+}

@@ -1,0 +1,248 @@
+{
+  "harness": "oma",
+  "package_manager": "npm",
+  "axes": {
+    "functional": {
+      "items": {
+        "build-pass": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "exit 0"
+        },
+        "boot-pass": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "HTTP 200 within 45s"
+        },
+        "journey-onboard": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "Landing page at / shows a clear 'Start Creating' button visible without scrolling, alongside 'Explore Worlds' and feature descriptions."
+        },
+        "journey-builder": {
+          "pass": 1,
+          "score": 4,
+          "max": 4,
+          "evidence": "Three.js Canvas renders at 2560x1600 at /create with shape/object pickers in a sidebar panel containing Shapes (Cube, Ball, Tube, Cone, Ring), Nature, and Things categories."
+        },
+        "journey-ai": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "Sparky AI buddy panel opens via button, accepted 'help me' input, and returned a non-empty response ('What would happen if it started snowing here? ❄️') with action buttons."
+        },
+        "journey-save": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "Save button clicked and confirmed ('Saved!'), page reloaded, and localStorage retains world 'My World' with 1 cube object persisting across reload."
+        },
+        "journey-gallery": {
+          "pass": 1,
+          "score": 2,
+          "max": 2,
+          "evidence": "Gallery at /gallery renders a grid showing the saved world card 'My World' by TestKid with Play, Edit, and Delete buttons."
+        },
+        "lint-clean": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "n/a (deprecated next lint without config) — credited to avoid penalizing legitimate Next 15 setup"
+        },
+        "ts-clean": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "exit 0"
+        }
+      },
+      "total": 35,
+      "max": 35
+    },
+    "spec": {
+      "items": {
+        "spec-product-concept": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:26-74"
+        },
+        "spec-personas": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:77-202"
+        },
+        "spec-journeys": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:205-388"
+        },
+        "spec-feature-list": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:392-432"
+        },
+        "spec-ia": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:435-506"
+        },
+        "spec-ui-direction": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:509-651"
+        },
+        "spec-tech-arch": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:654-878"
+        },
+        "spec-db-schema": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:882-1044"
+        },
+        "spec-ai-prompts": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:1047-1185"
+        },
+        "spec-safety": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:1188-1258"
+        },
+        "spec-impl-plan": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:1261-1481"
+        },
+        "spec-starter-code": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:1484-1618"
+        },
+        "spec-priority-screens": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "docs/PRODUCT.md:1622-1852"
+        },
+        "spec-real-api-bonus": {
+          "pass": false,
+          "score": 0,
+          "max": 2,
+          "evidence": "not found"
+        }
+      },
+      "total": 13,
+      "max": 15
+    },
+    "visual": {
+      "items": {
+        "visual-anti-patterns": {
+          "pass": 1,
+          "score": 4,
+          "max": 5,
+          "evidence": "One anti-pattern: sidebar category labels and landing-page card descriptions appear smaller than 16px; no gradient orbs, no purple-to-blue backgrounds, no nested cards, no cluttered dashboards."
+        },
+        "visual-child-friendly": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "Emoji-based object palette, friendly AI buddy Sparky with suggestion pills, big tappable toolbar buttons, minimal text density, warm calm color palette throughout."
+        },
+        "visual-consistency": {
+          "pass": 1,
+          "score": 4,
+          "max": 5,
+          "evidence": "Consistent warm beige backgrounds, coral accent color, rounded corners, and typography across landing/builder/gallery; minor drift in gallery Play/Edit button color treatment versus landing buttons."
+        },
+        "visual-accessibility": {
+          "pass": 1,
+          "score": 3,
+          "max": 5,
+          "evidence": "Good text-on-background contrast throughout and clear text labels on toolbar and palette icons; no visible focus rings and no evidence of narrow-width responsive behavior."
+        }
+      },
+      "total": 16,
+      "max": 20
+    },
+    "engineering": {
+      "items": {
+        "eng-breadth": {
+          "pass": true,
+          "score": 3.5,
+          "max": 4,
+          "evidence": "routes=6 components=13"
+        },
+        "eng-type-safety": {
+          "pass": true,
+          "score": 3.0,
+          "max": 4,
+          "evidence": "strict=true any_count=2"
+        },
+        "eng-modularity": {
+          "pass": true,
+          "score": 3.5,
+          "max": 4,
+          "evidence": "max_depth=8 max_file_lines=294"
+        },
+        "eng-transparency": {
+          "pass": true,
+          "score": 3.0,
+          "max": 4,
+          "evidence": "deferred_markers=2"
+        },
+        "eng-env-safety": {
+          "pass": true,
+          "score": 3,
+          "max": 4,
+          "evidence": "no hardcoded keys, no env refs either"
+        }
+      },
+      "total": 16,
+      "max": 20
+    },
+    "efficiency": {
+      "items": {
+        "eff-turns": {
+          "pass": true,
+          "score": 4,
+          "max": 4,
+          "evidence": "18 turns"
+        },
+        "eff-time": {
+          "pass": true,
+          "score": 3,
+          "max": 3,
+          "evidence": "162s"
+        },
+        "eff-cost": {
+          "pass": true,
+          "score": 1,
+          "max": 3,
+          "evidence": "$0.235/file (6.5713007500000025 USD / 28 files)"
+        }
+      },
+      "total": 8,
+      "max": 10
+    }
+  },
+  "total": 88.0,
+  "max": 100.0
+}

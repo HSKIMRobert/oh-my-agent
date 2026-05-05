@@ -1,0 +1,13 @@
+{
+  "harness": "ecc",
+  "package_manager": "pnpm",
+  "total": 68.5,
+  "max": 100.0,
+  "by_axis": {
+    "functional": 28.5,
+    "spec": 8,
+    "visual": 13,
+    "engineering": 15,
+    "efficiency": 4
+  }
+}

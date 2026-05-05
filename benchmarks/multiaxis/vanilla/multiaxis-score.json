@@ -1,0 +1,248 @@
+{
+  "harness": "vanilla",
+  "package_manager": "npm",
+  "axes": {
+    "functional": {
+      "items": {
+        "build-pass": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "exit 0"
+        },
+        "boot-pass": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "HTTP 200 within 45s"
+        },
+        "journey-onboard": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "Landing page shows a clearly visible '🎨 Start Creating' link without scrolling, linking to /create."
+        },
+        "journey-builder": {
+          "pass": 1,
+          "score": 4,
+          "max": 4,
+          "evidence": "Three.js canvas renders at 1536x1252 and sidebar shows object pickers (Shapes, Nature, Build, Animals, People, Props) with individual items like Box, Ball, Tube, Cone."
+        },
+        "journey-ai": {
+          "pass": 1,
+          "score": 3,
+          "max": 3,
+          "evidence": "AI Creative Buddy panel is visible with text input; typing 'help me' returned a non-empty response: 'That's okay! There's no wrong way to build. Try placing any object and see how it feels.'"
+        },
+        "journey-save": {
+          "pass": 1,
+          "score": 1.5,
+          "max": 3,
+          "evidence": "Save button exists and persists data to localStorage, but after reloading /create the builder shows 0 objects instead of restoring the saved Box object."
+        },
+        "journey-gallery": {
+          "pass": 1,
+          "score": 2,
+          "max": 2,
+          "evidence": "Gallery at /gallery renders a 'My Gallery' heading with a card showing the saved 'My World' with 1 object, author, and date."
+        },
+        "lint-clean": {
+          "pass": 0,
+          "score": 0,
+          "max": 5,
+          "evidence": "exit 1"
+        },
+        "ts-clean": {
+          "pass": 1,
+          "score": 5,
+          "max": 5,
+          "evidence": "exit 0"
+        }
+      },
+      "total": 28.5,
+      "max": 35
+    },
+    "spec": {
+      "items": {
+        "spec-product-concept": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply"
+        },
+        "spec-personas": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply"
+        },
+        "spec-journeys": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply"
+        },
+        "spec-feature-list": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply"
+        },
+        "spec-ia": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply"
+        },
+        "spec-ui-direction": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply"
+        },
+        "spec-tech-arch": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply"
+        },
+        "spec-db-schema": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply"
+        },
+        "spec-ai-prompts": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply"
+        },
+        "spec-safety": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply"
+        },
+        "spec-impl-plan": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply"
+        },
+        "spec-starter-code": {
+          "pass": 1,
+          "score": 1,
+          "max": 1,
+          "evidence": "final-reply and src/ directory with 20 source files"
+        },
+        "spec-priority-screens": {
+          "pass": 0,
+          "score": 0,
+          "max": 1,
+          "evidence": "final-reply truncated before section 13; no dedicated section found in project files"
+        },
+        "spec-real-api-bonus": {
+          "pass": false,
+          "score": 0,
+          "max": 2,
+          "evidence": "not found"
+        }
+      },
+      "total": 12,
+      "max": 15
+    },
+    "visual": {
+      "items": {
+        "visual-anti-patterns": {
+          "pass": 0,
+          "score": 1,
+          "max": 5,
+          "evidence": "Purple-to-blue gradient hero on landing page; body/metadata text appears sub-16px in several places (gallery byline, category tabs, environment labels); gallery shows card-inside-card nesting (thumbnail container within outer card); builder shows 7 distinct UI groups at once (nav, object categories, object grid, 3D canvas, environment bar, AI panel, chat input)"
+        },
+        "visual-child-friendly": {
+          "pass": 1,
+          "score": 4,
+          "max": 5,
+          "evidence": "Playful tone throughout with emoji, friendly AI buddy with suggestion chips, big CTA buttons on landing, whimsical environment names; slightly dense builder UI with small category tabs prevents a 5"
+        },
+        "visual-consistency": {
+          "pass": 1,
+          "score": 3,
+          "max": 5,
+          "evidence": "DreamWorld branding and rounded card shapes are consistent, but button styles drift across pages (orange/teal on landing, purple on gallery, mixed in builder) and the landing gradient aesthetic clashes with the builder's clean white style"
+        },
+        "visual-accessibility": {
+          "pass": 0,
+          "score": 2,
+          "max": 5,
+          "evidence": "Most text areas show adequate contrast and inputs have visible focus borders; text labels accompany most interactive elements, but some top-bar icons lack labels and no evidence of responsive layout adaptation"
+        }
+      },
+      "total": 10,
+      "max": 20
+    },
+    "engineering": {
+      "items": {
+        "eng-breadth": {
+          "pass": true,
+          "score": 2.5,
+          "max": 4,
+          "evidence": "routes=5 components=6"
+        },
+        "eng-type-safety": {
+          "pass": true,
+          "score": 4.0,
+          "max": 4,
+          "evidence": "strict=true any_count=0"
+        },
+        "eng-modularity": {
+          "pass": true,
+          "score": 3.0,
+          "max": 4,
+          "evidence": "max_depth=7 max_file_lines=473"
+        },
+        "eng-transparency": {
+          "pass": false,
+          "score": 0.0,
+          "max": 4,
+          "evidence": "deferred_markers=0"
+        },
+        "eng-env-safety": {
+          "pass": true,
+          "score": 3,
+          "max": 4,
+          "evidence": "no hardcoded keys, no env refs either"
+        }
+      },
+      "total": 12.5,
+      "max": 20
+    },
+    "efficiency": {
+      "items": {
+        "eff-turns": {
+          "pass": true,
+          "score": 2,
+          "max": 4,
+          "evidence": "42 turns"
+        },
+        "eff-time": {
+          "pass": true,
+          "score": 2,
+          "max": 3,
+          "evidence": "536s"
+        },
+        "eff-cost": {
+          "pass": true,
+          "score": 2,
+          "max": 3,
+          "evidence": "$0.132/file (2.3701027499999996 USD / 18 files)"
+        }
+      },
+      "total": 6,
+      "max": 10
+    }
+  },
+  "total": 69.0,
+  "max": 100.0
+}

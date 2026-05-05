@@ -1,0 +1,13 @@
+{
+  "harness": "oma",
+  "package_manager": "npm",
+  "total": 88.0,
+  "max": 100.0,
+  "by_axis": {
+    "functional": 35,
+    "spec": 13,
+    "visual": 16,
+    "engineering": 16,
+    "efficiency": 8
+  }
+}
