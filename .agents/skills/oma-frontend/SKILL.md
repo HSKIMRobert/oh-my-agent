@@ -131,6 +131,7 @@ Then run the project's frontend verification commands, typically lint, typecheck
 
 | Category | Library |
 |----------|---------|
+| Framework | `next@16+` (App Router) + `react@19+` — `next < 16` is BANNED |
 | Date | `luxon` |
 | Styling | `TailwindCSS v4` + `shadcn/ui` |
 | Hooks | `ahooks` (pre-made hooks preferred) |
