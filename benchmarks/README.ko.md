@@ -96,7 +96,7 @@
 
 ### 🥇 oma (75.5)
 
-- **Functional 28.5/35**: 5개 user journey 통과 + build/boot/ts 통과. lint 0/5 은 의도된 trade-off (oma 는 lint 강제를 agent skill 이 아닌 pre-commit/pre-push 단에 두는 설계, caveat #6 참고). save-reload 1.5/3: 저장 버튼은 있지만 localStorage 코드 미작성으로 reload 후 상태 복원 안 됨.
+- **Functional 28.5/35**: 5개 user journey, build, boot, ts 모두 통과. lint 0/5 은 의도된 절충입니다. oma 는 lint 검사를 agent skill 이 아니라 pre-commit / pre-push 단에 두는 설계라 단일 run 측정에선 손해 (caveat #6 참고). save-reload 1.5/3: 저장 버튼만 만들고 localStorage 연결 코드를 빼먹어 새로고침하면 상태가 사라집니다.
 - **Spec 13/15**: 13개 prompt 산출물 모두 PRODUCT.md 에 존재. real-api 보너스 0/2 (deferred stub 으로 처리).
 - **Visual 14/20**: anti-pattern 4/5, child-friendly 4/5, consistency 3/5, accessibility 3/5.
 - **Engineering 18/20** (전 harness 중 최고): routes=7, components=13, strict TS + any 0개, modularity max 316 lines, transparency 마커 2개, env 안전.
@@ -159,7 +159,7 @@
 3. **LLM judge는 한 번씩만 돌렸습니다.** spec, visual, journey 판정이 모두 1회 측정이므로, 다시 돌리면 축당 ±2~3점 정도는 흔들립니다. oma (75.5) 와 superpowers (74) 의 1.5점 차이는 이 노이즈 안이라, 상위 3개 (oma/sp/omc 2.5점 이내) 는 사실상 동률로 읽어야 합니다.
 4. **Engineering의 transparency 항목은 oma에게 구조적으로 유리합니다.** deferred-stub 마커 사용을 권장하는 oma 룰 덕분에 이 항목에서 1점 이상을 받은 하네스는 oma뿐입니다. 측정 자체는 의미 있는 신호지만, 항목 구성상 oma 쪽으로 점수가 몰립니다.
 5. **비용은 파일당 비용만 봤습니다.** efficiency 축은 파일당 비용을 기준으로 계산합니다. 하네스 사이의 절대 비용 차이 ($1.28 ~ $8.19) 는 축 점수에 반영되지 않습니다.
-6. **oma 설계 원칙: lint 와 typecheck 는 agent skill 이 아니라 pre-commit / pre-push 단에서 잡습니다.** oma 는 의도적으로 agent 가 생성 도중 linter 룰을 self-police 하지 않게 두었습니다. 이유는 (a) ESLint 특정 룰을 skill 에 박아넣으면 brittle (Biome, oxlint, 향후 linter 등 룰이 다름), (b) "push 가능한 상태인가" 의 canonical layer 는 git hook (pre-commit 의 husky + lint-staged, pre-push 의 lint/typecheck/build) 과 CI 입니다. 실제 워크플로우에서는 이번 run 이 만든 잘못된 `<a href>` 와 미사용 import 도 pre-push hook 에서 막혀 remote 까지 못 갑니다. 개발자 (또는 retry 하는 agent) 가 고쳐서 다시 push 하게 됩니다. 단일 측정에서는 이게 `lint-clean` 5점 손실로 잡히지만, 아키텍처 선택은 의도적입니다. agent skill 은 framework canonical 패턴에 집중하게 두고, mechanical 강제는 hook/CI layer 에 위임하는 게 oma 의 입장입니다.
+6. **oma 설계 원칙: lint 와 typecheck 는 agent skill 이 아니라 pre-commit / pre-push 단에서 잡습니다.** oma 는 agent 가 생성 도중 직접 linter 룰을 점검하지 않도록 일부러 비워뒀습니다. 두 가지 이유 때문입니다. 첫째, ESLint 특정 룰을 skill 에 박아넣으면 깨지기 쉽습니다. Biome, oxlint, 앞으로 나올 linter 마다 룰이 다르기 때문입니다. 둘째, "push 가능한 상태인가" 를 결정하는 canonical 위치는 git hook 입니다. pre-commit 에선 husky 와 lint-staged 가, pre-push 에선 lint, typecheck, build 가 작동하고 그 위에 CI 가 한 번 더 안전망 역할을 합니다. 실제 워크플로우라면 이번 run 이 만든 잘못된 `<a href>` 와 미사용 import 모두 pre-push hook 에서 걸러져 remote 까지 가지 못합니다. 결국 개발자나 다시 시도한 agent 가 고쳐서 push 하게 되는 흐름입니다. 단일 측정에서는 이 선택이 `lint-clean` 5점 손실로 잡히지만, 아키텍처 차원에선 의도적인 결정입니다. agent skill 은 framework canonical 패턴에만 집중하고, 기계적 강제는 hook 과 CI 가 맡는다는 게 oma 의 입장입니다.
 
 ---
 

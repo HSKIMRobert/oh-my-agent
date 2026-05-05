@@ -63,19 +63,19 @@ ANTHROPIC_API_KEY not set — OAuth via the user's logged-in `claude` CLI.
 
 | vanilla | oma | omc | ecc | superpowers |
 |---|---|---|---|---|
-| ![vanilla gallery](screenshots/vanilla/04-gallery.png) | _(missing)_ | ![omc gallery](screenshots/omc/04-gallery.png) | ![ecc gallery](screenshots/ecc/04-gallery.png) | ![superpowers gallery](screenshots/superpowers/04-gallery.png) |
+| ![vanilla gallery](screenshots/vanilla/04-gallery.png) | ![oma gallery](screenshots/oma/05-gallery.png) | ![omc gallery](screenshots/omc/04-gallery.png) | ![ecc gallery](screenshots/ecc/04-gallery.png) | ![superpowers gallery](screenshots/superpowers/04-gallery.png) |
 
 ### Object placed in scene
 
 | vanilla | oma | omc | ecc | superpowers |
 |---|---|---|---|---|
-| ![vanilla object](screenshots/vanilla/02-world-builder-with-object.png) | _(missing)_ | ![omc object](screenshots/omc/02b-object-placed.png) | ![ecc object](screenshots/ecc/02b-box-placed.png) | ![superpowers object](screenshots/superpowers/02-world-builder-with-object.png) |
+| ![vanilla object](screenshots/vanilla/02-world-builder-with-object.png) | ![oma object](screenshots/oma/05-objects-added.png) | ![omc object](screenshots/omc/02b-object-placed.png) | ![ecc object](screenshots/ecc/02b-box-placed.png) | ![superpowers object](screenshots/superpowers/02-world-builder-with-object.png) |
 
 ### Environment / theme change
 
 | vanilla | oma | omc | ecc | superpowers |
 |---|---|---|---|---|
-| ![vanilla env](screenshots/vanilla/05-env-theme.png) | _(missing)_ | ![omc env](screenshots/omc/06-theme-change.png) | ![ecc env](screenshots/ecc/02c-env-theme.png) | ![superpowers env](screenshots/superpowers/02b-env-theme.png) |
+| ![vanilla env](screenshots/vanilla/05-env-theme.png) | ![oma env](screenshots/oma/06-theme-change.png) | ![omc env](screenshots/omc/06-theme-change.png) | ![ecc env](screenshots/ecc/02c-env-theme.png) | ![superpowers env](screenshots/superpowers/02b-env-theme.png) |
 
 ### Save → reload (state persistence)
 
