@@ -1,7 +1,7 @@
 {
   "name": "oh-my-agent",
   "version": "6.15.0",
-  "releaseDate": "2026-05-06T08:39:18.881Z",
+  "releaseDate": "2026-05-07T12:57:24.879Z",
   "repository": "https://github.com/first-fluke/oh-my-agent",
   "files": [
     {
@@ -156,8 +156,8 @@
     },
     {
       "path": ".agents/oma-config.yaml",
-      "sha256": "347806be345f2b54421a5974814efb1d8578fe95a0f044eae681aabd83d5e3ce",
-      "size": 4231
+      "sha256": "00c95797655c4a5467a58ee20a8d863a2e69f1519ffb310992fdeba186cb1ca3",
+      "size": 5499
     },
     {
       "path": ".agents/rules/backend.md",
@@ -708,6 +708,11 @@
       "path": ".agents/skills/oma-dev-workflow/resources/validation-pipeline.md",
       "sha256": "4d2b5a4d9e0f7c9bcaf000048490bb52c255545cb86de789c391f915c52054d1",
       "size": 7761
+    },
+    {
+      "path": ".agents/skills/oma-docs/SKILL.md",
+      "sha256": "56d76f3ccd99c6a00a3a5237497ed7c89c1703518ce8f970982a4a33ed2d8752",
+      "size": 14737
     },
     {
       "path": ".agents/skills/oma-frontend/SKILL.md",
@@ -1376,8 +1381,8 @@
     },
     {
       "path": ".agents/workflows/deepinit.md",
-      "sha256": "3d90ac6cd5ab5590379c57d00d2d3c1d330d21781f8d88990fba25a2dcf5d1b3",
-      "size": 14722
+      "sha256": "1540534358cd2da6527f6781a1071fdc0600592ea3f391b84730ccc031f36dab",
+      "size": 14339
     },
     {
       "path": ".agents/workflows/design.md",
@@ -1416,8 +1421,8 @@
     },
     {
       "path": ".agents/workflows/scm.md",
-      "sha256": "86c4f42e201d86931ca7fc6f16b1c7c202520c8a6b9f5c6b4f626705dd7f9d24",
-      "size": 6082
+      "sha256": "a87c1136bdbb9e305f88b40a490cdc293011377c3afd32bdbe140d6c567d7c32",
+      "size": 6740
     },
     {
       "path": ".agents/workflows/stack-set.md",
@@ -1441,21 +1446,21 @@
     },
     {
       "path": ".agents/workflows/ultrawork.md",
-      "sha256": "4357283b25fb9d3c12c4e0e38ca4117d0b971f1afe84bd35a889799340424478",
-      "size": 18137
+      "sha256": "ea4c95dacaed89453ecc85fc1eae26aa2ebdf95c51e933c01802c90218d80000",
+      "size": 18798
     },
     {
       "path": ".agents/workflows/work.md",
-      "sha256": "6c4637b977e23e93dbbdf0b66608a10a908bf287d2f74d32255a56fbde360620",
-      "size": 6360
+      "sha256": "f4891b0a00ae29d676dd1ed020a7e293a9d5573661162e60d0d74a1feb54deff",
+      "size": 7020
     }
   ],
   "checksums": {
     "algorithm": "sha256"
   },
   "metadata": {
-    "skillCount": 24,
+    "skillCount": 25,
     "workflowCount": 18,
-    "totalFiles": 289
+    "totalFiles": 290
   }
 }
