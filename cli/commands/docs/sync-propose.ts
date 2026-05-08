@@ -22,6 +22,7 @@
 import { execSync } from "node:child_process";
 import path from "node:path";
 import { minimatch } from "minimatch";
+import { isPathGitIgnored } from "../../io/gitignore.js";
 import type { DocEntry, DocRef, DocRefsIndex } from "../../types/docs.js";
 
 // ---------------------------------------------------------------------------
@@ -66,18 +67,6 @@ function isExcludedByPattern(filePath: string): boolean {
       minimatch(basename, pattern, { nocase: true }) ||
       minimatch(filePath, pattern, { nocase: true }),
   );
-}
-
-function isGitIgnored(filePath: string, repoRoot: string): boolean {
-  try {
-    execSync(`git check-ignore -q "${filePath}"`, {
-      cwd: repoRoot,
-      stdio: ["pipe", "pipe", "pipe"],
-    });
-    return true; // exit 0 means ignored
-  } catch {
-    return false; // exit 1 means not ignored
-  }
 }
 
 // ---------------------------------------------------------------------------
@@ -274,7 +263,7 @@ export async function proposeSyncPatches(opts: {
     { changedFiles: docChangedFiles, matchedRefs },
   ] of docCandidateMap) {
     const safeChangedFiles = docChangedFiles.filter(
-      (f) => !isExcludedByPattern(f) && !isGitIgnored(f, repoRoot),
+      (f) => !isExcludedByPattern(f) && !isPathGitIgnored(f, repoRoot),
     );
 
     proposals.push({
@@ -304,7 +293,7 @@ export function getExcludedFiles(
 ): string[] {
   const excluded: string[] = [];
   for (const file of changedFiles) {
-    if (isExcludedByPattern(file) || isGitIgnored(file, repoRoot)) {
+    if (isExcludedByPattern(file) || isPathGitIgnored(file, repoRoot)) {
       excluded.push(file);
     }
   }

@@ -8,7 +8,8 @@
  *
  * Mock strategy:
  *   - vi.hoisted() to define mock factories before vi.mock() hoisting
- *   - vi.mock("node:child_process") to stub execSync (git diff, git check-ignore)
+ *   - vi.mock("node:child_process") to stub execSync (git diff)
+ *   - vi.mock("../../io/gitignore.js") to stub isPathGitIgnored
  *
  * Design: docs/plans/designs/008-oma-docs.md § Sync pipeline
  */
@@ -20,6 +21,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 // ---------------------------------------------------------------------------
 
 const mockExecSync = vi.hoisted(() => vi.fn());
+const mockIsPathGitIgnored = vi.hoisted(() => vi.fn());
 
 vi.mock("node:child_process", async (importOriginal) => {
   const original = await importOriginal<typeof import("node:child_process")>();
@@ -28,6 +30,10 @@ vi.mock("node:child_process", async (importOriginal) => {
     execSync: mockExecSync,
   };
 });
+
+vi.mock("../../io/gitignore.js", () => ({
+  isPathGitIgnored: mockIsPathGitIgnored,
+}));
 
 import type { DocRefsIndex } from "../../types/docs.js";
 import { getExcludedFiles, proposeSyncPatches } from "./sync-propose.js";
@@ -72,16 +78,13 @@ function makeMultiDocIndex(
 
 const REPO_ROOT = "/fake/repo";
 
-// Default: git diff returns empty, git check-ignore exits 1 (not ignored)
+// Default: git diff returns empty, no files reported as gitignored
 function setupDefaultGitMocks(changedFiles: string[] = []) {
+  mockIsPathGitIgnored.mockReturnValue(false);
   mockExecSync.mockImplementation((cmd: string) => {
     // git diff --name-only <range>
     if (cmd.includes("git diff --name-only")) {
       return changedFiles.join("\n");
-    }
-    // git check-ignore -q → throw (not ignored)
-    if (cmd.includes("git check-ignore")) {
-      throw new Error("not ignored");
     }
     // git diff <range> -- <file> → empty diff
     if (cmd.includes("git diff") && cmd.includes(" -- ")) {
@@ -125,11 +128,11 @@ describe("proposeSyncPatches - --cached default + fallback", () => {
   });
 
   it("uses --cached by default when no diffRange given", async () => {
+    mockIsPathGitIgnored.mockReturnValue(false);
     mockExecSync.mockImplementation((cmd: string) => {
       if (cmd.includes("--cached") && cmd.includes("--name-only")) {
         return "cli/commands/docs/extract.ts\n";
       }
-      if (cmd.includes("git check-ignore")) throw new Error("not ignored");
       if (cmd.includes("git diff") && cmd.includes(" -- ")) return "";
       return "";
     });
@@ -148,6 +151,7 @@ describe("proposeSyncPatches - --cached default + fallback", () => {
   });
 
   it("falls back to HEAD~1..HEAD when --cached returns empty", async () => {
+    mockIsPathGitIgnored.mockReturnValue(false);
     mockExecSync.mockImplementation((cmd: string) => {
       if (cmd.includes("--cached") && cmd.includes("--name-only")) {
         return ""; // empty staged
@@ -155,7 +159,6 @@ describe("proposeSyncPatches - --cached default + fallback", () => {
       if (cmd.includes("HEAD~1..HEAD") && cmd.includes("--name-only")) {
         return "cli/commands/docs/extract.ts\n";
       }
-      if (cmd.includes("git check-ignore")) throw new Error("not ignored");
       if (cmd.includes("git diff") && cmd.includes(" -- ")) return "";
       return "";
     });
@@ -403,13 +406,10 @@ describe("getExcludedFiles - gitignored exclusion", () => {
     vi.clearAllMocks();
   });
 
-  it("excludes files where git check-ignore exits 0 (ignored)", () => {
-    mockExecSync.mockImplementation((cmd: string) => {
-      if (cmd.includes("git check-ignore") && cmd.includes("ignored-file.ts")) {
-        return ""; // exit 0 = ignored
-      }
-      throw new Error("not ignored");
-    });
+  it("excludes files reported as gitignored", () => {
+    mockIsPathGitIgnored.mockImplementation(
+      (filePath: string) => filePath === "ignored-file.ts",
+    );
     const excluded = getExcludedFiles(
       ["ignored-file.ts", "normal-file.ts"],
       REPO_ROOT,
@@ -418,10 +418,8 @@ describe("getExcludedFiles - gitignored exclusion", () => {
     expect(excluded).not.toContain("normal-file.ts");
   });
 
-  it("does not exclude files where git check-ignore exits 1 (not ignored)", () => {
-    mockExecSync.mockImplementation(() => {
-      throw new Error("not ignored");
-    });
+  it("does not exclude files reported as not gitignored", () => {
+    mockIsPathGitIgnored.mockReturnValue(false);
     const excluded = getExcludedFiles(["normal-file.ts"], REPO_ROOT);
     expect(excluded).toHaveLength(0);
   });

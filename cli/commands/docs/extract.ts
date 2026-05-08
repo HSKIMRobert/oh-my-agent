@@ -8,7 +8,6 @@
  * Design: docs/plans/designs/008-oma-docs.md § Extractor
  */
 
-import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import type { Code, Html, Image, InlineCode, Link, Node, Root } from "mdast";
@@ -16,6 +15,11 @@ import { minimatch } from "minimatch";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
+import {
+  ensureGitignored,
+  isInIgnoredSet,
+  listGitIgnoredPaths,
+} from "../../io/gitignore.js";
 import type {
   DocEntry,
   DocRef,
@@ -63,42 +67,6 @@ const OMA_CONFIG_TOP_KEYS = new Set([
 ]);
 
 // ---------------------------------------------------------------------------
-// Gitignore helper
-// ---------------------------------------------------------------------------
-
-function buildGitIgnoreSet(repoRoot: string): Set<string> {
-  try {
-    const output = execSync(
-      "git ls-files --others --ignored --exclude-standard --directory -z",
-      {
-        cwd: repoRoot,
-        encoding: "utf-8",
-        stdio: ["pipe", "pipe", "ignore"],
-      },
-    );
-    const paths = output.split("\0").filter(Boolean);
-    return new Set(paths.map((p) => path.resolve(repoRoot, p)));
-  } catch {
-    return new Set();
-  }
-}
-
-function isGitIgnored(absPath: string, ignoredSet: Set<string>): boolean {
-  // Check exact match or prefix (directory entries end with /)
-  if (ignoredSet.has(absPath)) return true;
-  for (const ignored of ignoredSet) {
-    const normalized = ignored.endsWith("/") ? ignored.slice(0, -1) : ignored;
-    if (
-      absPath === normalized ||
-      absPath.startsWith(`${normalized}${path.sep}`)
-    ) {
-      return true;
-    }
-  }
-  return false;
-}
-
-// ---------------------------------------------------------------------------
 // Markdown file walker
 // ---------------------------------------------------------------------------
 
@@ -124,7 +92,7 @@ function walkMarkdownFiles(
       if (entry.isSymbolicLink()) continue;
 
       // Skip gitignored paths
-      if (isGitIgnored(absPath, ignoredSet)) continue;
+      if (isInIgnoredSet(absPath, ignoredSet)) continue;
 
       if (entry.isDirectory()) {
         const relDir = toPosixPath(path.relative(repoRoot, absPath));
@@ -684,7 +652,7 @@ export async function extractDocRefs(
   repoRoot: string,
   glob?: string,
 ): Promise<DocRefsIndex> {
-  const ignoredSet = buildGitIgnoreSet(repoRoot);
+  const ignoredSet = listGitIgnoredPaths(repoRoot);
   const mdFiles = globToMdFiles(repoRoot, glob ?? "**/*.md", ignoredSet);
 
   // Sort files for determinism
@@ -710,8 +678,15 @@ export async function extractDocRefs(
 
 /**
  * Write the DocRefsIndex to docs/generated/doc-refs.json.
+ *
+ * Also ensures `docs/generated/` is in the project .gitignore so the
+ * generated artifact is not accidentally committed. No-op outside a git
+ * repo.
  */
 export function writeDocRefsIndex(index: DocRefsIndex, repoRoot: string): void {
+  ensureGitignored(repoRoot, ["docs/generated/"], {
+    header: "# oma docs generated artifacts",
+  });
   const outDir = path.join(repoRoot, "docs", "generated");
   fs.mkdirSync(outDir, { recursive: true });
   const outPath = path.join(outDir, "doc-refs.json");

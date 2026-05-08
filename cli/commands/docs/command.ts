@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { Command } from "commander";
 import { runAction } from "../../cli-kit/cli-framework.js";
+import { ensureGitignored } from "../../io/gitignore.js";
 import { parseOmaConfig } from "../../platform/agent-config.js";
 import type { DocRefsIndex } from "../../types/docs.js";
 import { extractDocRefs, writeDocRefsIndex } from "./extract.js";
@@ -166,6 +167,9 @@ export function registerDocsCommands(program: Command): void {
             }
           } else {
             const out = urlReportPath(repoRoot);
+            ensureGitignored(repoRoot, ["docs/generated/"], {
+              header: "# oma docs generated artifacts",
+            });
             if (urlsSync) {
               runLycheeSync(repoRoot, pathArg, out);
               if (!opts.json) {
