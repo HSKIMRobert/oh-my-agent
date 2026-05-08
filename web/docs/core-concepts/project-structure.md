@@ -408,9 +408,9 @@ oh-my-agent/
 │   ├── src/              ← Source code
 │   ├── package.json
 │   └── install.sh        ← Bootstrap installer
-├── web/                  ← Documentation site (Next.js)
-│   └── content/
-│       └── en/           ← English documentation pages
+├── web/                  ← Documentation site (Docusaurus)
+│   ├── docs/             ← English documentation pages (base locale)
+│   └── i18n/             ← Translated documentation pages
 ├── action/               ← GitHub Action for automated skill updates
 ├── docs/                 ← Translated READMEs and specifications
 ├── .agents/              ← EDITABLE in source repo (this IS the source)
@@ -422,8 +422,9 @@ oh-my-agent/
 
 In the source repo, `.agents/` modifications are allowed (this is the SSOT exception for the source repo itself). The `.agents/` rules about not modifying this directory apply to consumer projects, not the oh-my-agent repository.
 
-Development commands:
+Development commands (run from the repository root):
 - `bun run test` — CLI tests (vitest)
-- `bun run lint` — Lint
+- `bun run lint` — Lint CLI and web workspaces
 - `bun run build` — CLI build
+- `bun run typecheck` — Type-check CLI and web
 - Commits must follow conventional commit format (commitlint enforced)
