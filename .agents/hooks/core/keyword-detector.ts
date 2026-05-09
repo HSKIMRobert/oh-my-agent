@@ -21,12 +21,9 @@ import {
   writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
-import {
-  type ModeState,
-  makePromptOutput,
-  resolveGitRoot,
-  type Vendor,
-} from "./types.ts";
+import { resolveGitRoot } from "./fs-utils.ts";
+import { makePromptOutput } from "./hook-output.ts";
+import type { ModeState, Vendor } from "./types.ts";
 
 // ── Guard 1: UserPromptSubmit-only trigger ────────────────────
 // Hook event names that represent genuine user input (not agent responses)

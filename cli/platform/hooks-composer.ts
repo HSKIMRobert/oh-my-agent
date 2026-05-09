@@ -57,12 +57,16 @@ function patchVendorHookTypes(hooksDest: string, vendor: string): void {
     return;
   }
 
-  const typesPath = join(hooksDest, "types.ts");
-  if (!existsSync(typesPath)) {
+  // Output builders moved from types.ts to hook-output.ts; fall back to
+  // the legacy location if a previous install left only types.ts on disk.
+  const outputPath = join(hooksDest, "hook-output.ts");
+  const legacyTypesPath = join(hooksDest, "types.ts");
+  const targetPath = existsSync(outputPath) ? outputPath : legacyTypesPath;
+  if (!existsSync(targetPath)) {
     return;
   }
 
-  const content = readFileSync(typesPath, "utf-8");
+  const content = readFileSync(targetPath, "utf-8");
   const legacyPreToolBranch = `    case "claude":
     case "codex":
     case "qwen":
@@ -90,7 +94,7 @@ function patchVendorHookTypes(hooksDest: string, vendor: string): void {
   }
 
   writeFileSync(
-    typesPath,
+    targetPath,
     content.replace(legacyPreToolBranch, patchedPreToolBranch),
     "utf-8",
   );

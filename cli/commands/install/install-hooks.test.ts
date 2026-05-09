@@ -371,7 +371,7 @@ describe("installHooksFromVariant", () => {
           });
         }
 
-        if (n(pathArg).endsWith(".codex/hooks/types.ts")) {
+        if (n(pathArg).endsWith(".codex/hooks/hook-output.ts")) {
           return `    case "claude":
     case "codex":
     case "qwen":
@@ -390,7 +390,7 @@ describe("installHooksFromVariant", () => {
       (pathArg: string) =>
         n(pathArg).includes("variants/") ||
         n(pathArg).includes("hooks/core") ||
-        n(pathArg).includes(".codex/hooks/types.ts") ||
+        n(pathArg).includes(".codex/hooks/hook-output.ts") ||
         n(pathArg).includes(".agents/agents") ||
         n(pathArg).includes(".agents/workflows"),
     );
@@ -398,7 +398,7 @@ describe("installHooksFromVariant", () => {
     installVendorAdaptations(mockSourceDir, mockTargetDir, ["codex"]);
 
     expect(fs.writeFileSync).toHaveBeenCalledWith(
-      join(mockTargetDir, ".codex", "hooks", "types.ts"),
+      join(mockTargetDir, ".codex", "hooks", "hook-output.ts"),
       expect.stringContaining("updated_input: updatedInput"),
       "utf-8",
     );

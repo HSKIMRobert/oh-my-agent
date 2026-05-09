@@ -13,7 +13,7 @@ vi.mock("node:fs", () => ({
 const { isStale, deactivate, writeBlockAndExit } = await import(
   "../../.agents/hooks/core/persistent-mode.ts"
 );
-const { resolveGitRoot } = await import("../../.agents/hooks/core/types.ts");
+const { resolveGitRoot } = await import("../../.agents/hooks/core/fs-utils.ts");
 
 describe("persistent-mode", () => {
   beforeEach(() => {
