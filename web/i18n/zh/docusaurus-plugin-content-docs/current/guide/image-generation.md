@@ -67,7 +67,36 @@ oma image list-vendors
 
 ---
 
-## 斜杠命令（在编辑器内部）
+## 用作技能
+
+`oma-image` 是一个技能：既能从自然语言自动激活，也可以显式调用。共有三种入口。
+
+### 1. 自然语言（自动激活）
+
+在 Claude Code、Codex CLI 或 Gemini CLI 内部，直接描述图像即可。该技能会匹配 *image*、*illustration*、*visual asset*、*concept art*、*hero shot*、*thumbnail*、*product photo* 等关键词。
+
+无需记住 CLI flag。用日常语言说出来，技能就会映射到合适的选项：
+
+| 你说 | 技能推断 |
+|---|---|
+| "用 codex" / "用 gpt-image-2" / "免费的 flux" | `--vendor codex` / `--vendor pollinations` |
+| "跨供应商比较" / "并排对比" | `--vendor all` |
+| "竖版" / "横版" / "1024×1536" | `--size 1024x1536` / `--size 1536x1024` |
+| "高质量" / "草稿" | `--quality high` / `--quality low` |
+| "三个变体" / "给我 3 张" | `-n 3` |
+| "保存到 ./hero" / "输出到 docs/assets" | `--out <dir>` |
+| 附加图像 + "改成夜景" | `-r <附件路径>` |
+| "只估算成本" / "dry run" | `--dry-run` |
+
+示例：
+
+> "为落地页 hero 生成一张极简的山间日出图，横版，高质量。"
+> "在所有供应商之间对比一张陶瓷马克杯产品照，每家三个变体。"
+> "用 codex 把这张水獭照片改成戏剧化的夜景。"（带参考图附件）
+
+智能体会运行[澄清协议](#clarification-protocol)，必要时扩写提示，然后用推断出的 flag 调用 `oma image generate`。当你想精确控制 flag 取值时再使用斜杠命令。
+
+### 2. 显式斜杠命令
 
 ```text
 /oma-image a red apple on white background
@@ -75,7 +104,17 @@ oma image list-vendors
 /oma-image -n 3 --quality high --out ./hero "minimalist dashboard hero illustration"
 ```
 
-斜杠命令会被转发到同一个 `oma image generate` 管线，所有 CLI flag 在这里同样有效。
+所有 CLI flag（`--vendor`、`-n`、`--size`、`-r`、`--dry-run` 等）在斜杠命令中都同样有效，它们会被转发到同一个 `oma image generate` 管线。
+
+### 3. 来自其他技能（共享基础设施）
+
+其他技能（设计、营销、文档）将该管线作为共享基础设施调用，并使用 JSON 输出：
+
+```bash
+oma image generate "<prompt>" --format json
+```
+
+写入 stdout 的 manifest 包含输出路径、供应商、模型和成本，便于解析与串联。
 
 ---
 
@@ -170,7 +209,7 @@ oma image generate -r a.png,b.png "blend these styles" --vendor gemini
 
 ---
 
-## 澄清协议
+## 澄清协议 {#clarification-protocol}
 
 调用 `oma image generate` 之前，调用方智能体会运行此检查清单。若有任何缺失且无法推断，则先询问，或者扩写提示并展示扩写结果以供确认。
 
@@ -192,18 +231,6 @@ oma image generate -r a.png,b.png "blend these styles" --vendor gemini
 当用户已经撰写了完整的创作简报（≥ 2 项：主体 + 风格 + 光照 + 构图），其提示将被原样尊重，不澄清、不扩写。
 
 **输出语言。** 生成提示以英文发送给供应商（图像模型主要在英文 caption 上训练）。如果用户使用其他语言书写，智能体会翻译并在扩写阶段展示译文，以便用户纠正任何误读。
-
----
-
-## 共享调用（来自其他技能）
-
-其他技能将图像生成作为共享基础设施调用：
-
-```bash
-oma image generate "<prompt>" --format json
-```
-
-写入 stdout 的 JSON manifest 包含输出路径、供应商、模型和成本，易于解析与串联。
 
 ---
 

@@ -67,7 +67,36 @@ oma image list-vendors
 
 ---
 
-## スラッシュコマンド（エディタ内）
+## スキルとして使う
+
+`oma-image`はスキルです。自然言語で自動アクティベートし、明示的に呼び出すこともできます。エントリーポイントは3つあります。
+
+### 1. 自然言語（自動アクティベーション）
+
+Claude Code、Codex CLI、Gemini CLIの中で、画像をそのまま説明するだけで構いません。*image*、*illustration*、*visual asset*、*concept art*、*hero shot*、*thumbnail*、*product photo*などのキーワードにマッチします。
+
+CLIフラグを覚える必要はありません。普通の言葉で伝えれば、スキルが適切なオプションへマッピングします：
+
+| ユーザーの発話 | スキルが推論するフラグ |
+|---|---|
+| 「codexで」/「gpt-image-2で」/「無料のflux」 | `--vendor codex` / `--vendor pollinations` |
+| 「ベンダー比較」/「横並びで」 | `--vendor all` |
+| 「縦長」/「横長」/「1024×1536」 | `--size 1024x1536` / `--size 1536x1024` |
+| 「高品質」/「ドラフト」 | `--quality high` / `--quality low` |
+| 「3バリエーション」/「3枚ちょうだい」 | `-n 3` |
+| 「./heroに保存」/「docs/assetsへ出力」 | `--out <dir>` |
+| 添付画像 + 「夜のシーンにして」 | `-r <添付パス>` |
+| 「コストだけ見積もって」/「ドライラン」 | `--dry-run` |
+
+例：
+
+> 「ランディングのヒーロー用に、山々に昇るミニマルな朝日を、横長・高品質で生成して。」
+> 「セラミックマグの商品写真をすべてのベンダーで比較、各3バリエーションで。」
+> 「このカワウソの写真をcodexでドラマチックな夜のシーンに。」（リファレンス画像を添付して）
+
+エージェントは[Clarification Protocol](#clarification-protocol)を実行し、必要に応じてプロンプトを増幅した上で、推論したフラグで`oma image generate`を呼び出します。フラグの値を厳密にコントロールしたいときだけスラッシュコマンドを使ってください。
+
+### 2. 明示的なスラッシュコマンド
 
 ```text
 /oma-image a red apple on white background
@@ -75,7 +104,17 @@ oma image list-vendors
 /oma-image -n 3 --quality high --out ./hero "minimalist dashboard hero illustration"
 ```
 
-スラッシュコマンドは同じ`oma image generate`パイプラインへ転送されるため、すべてのCLIフラグがここでも機能します。
+スラッシュコマンドではすべてのCLIフラグ（`--vendor`、`-n`、`--size`、`-r`、`--dry-run`、…）がそのまま機能します。同じ`oma image generate`パイプラインへ転送されるためです。
+
+### 3. 別のスキルから（共有インフラ）
+
+他のスキル（design、marketing、docs）はこのパイプラインを共有インフラとして、JSON出力で呼び出します：
+
+```bash
+oma image generate "<prompt>" --format json
+```
+
+stdoutに書き出されるマニフェストには出力パス、ベンダー、モデル、コストが含まれており、パースとチェーンが容易です。
 
 ---
 
@@ -170,7 +209,7 @@ oma image generate -r a.png,b.png "blend these styles" --vendor gemini
 
 ---
 
-## クラリフィケーションプロトコル
+## クラリフィケーションプロトコル {#clarification-protocol}
 
 `oma image generate`を呼び出す前に、呼び出しエージェントは以下のチェックリストを実行します。何かが欠けていて推論不能な場合は、まず質問するか、プロンプトを増幅して拡張案を提示し承認を得ます。
 
@@ -192,18 +231,6 @@ oma image generate -r a.png,b.png "blend these styles" --vendor gemini
 ユーザーが完成したクリエイティブブリーフを書いている場合（被写体 + スタイル + ライティング + 構図のうち2つ以上）、そのプロンプトはそのまま尊重されます。クラリフィケーションも増幅もしません。
 
 **出力言語。** 生成プロンプトは英語でプロバイダへ送信されます（画像モデルは主に英語キャプションで学習されているため）。ユーザーが他言語で書いた場合、エージェントは翻訳し、増幅時に翻訳結果を提示することで、誤読をユーザーが訂正できるようにします。
-
----
-
-## 共有呼び出し（他スキルから）
-
-他のスキルは画像生成を共有インフラとして呼び出します：
-
-```bash
-oma image generate "<prompt>" --format json
-```
-
-stdoutに書き出されるJSONマニフェストには出力パス、ベンダー、モデル、コストが含まれており、パースとチェーンが容易です。
 
 ---
 

@@ -67,7 +67,36 @@ oma image list-vendors
 
 ---
 
-## 슬래시 커맨드 (에디터 내부)
+## 스킬로 사용하기
+
+`oma-image`는 스킬입니다. 자연어로 자동 활성화되며, 명시적으로 호출할 수도 있습니다. 진입 경로는 세 가지입니다.
+
+### 1. 자연어 (자동 활성화)
+
+Claude Code, Codex CLI, Gemini CLI 안에서 그냥 이미지를 설명하면 됩니다. *image*, *illustration*, *visual asset*, *concept art*, *hero shot*, *thumbnail*, *product photo* 같은 키워드에 매칭됩니다.
+
+CLI 플래그를 외울 필요가 없습니다. 자연어로 말하면 스킬이 알맞은 옵션으로 매핑합니다:
+
+| 자연어 | 스킬이 추론 |
+|---|---|
+| "codex로" / "gpt-image-2로" / "무료 flux로" | `--vendor codex` / `--vendor pollinations` |
+| "벤더 비교" / "다 같이" | `--vendor all` |
+| "세로" / "가로" / "1024×1536" | `--size 1024x1536` / `--size 1536x1024` |
+| "고품질" / "초안" | `--quality high` / `--quality low` |
+| "세 가지 변형" / "3개 뽑아줘" | `-n 3` |
+| "./hero에 저장" / "docs/assets로" | `--out <dir>` |
+| 첨부 이미지 + "야간으로 바꿔줘" | `-r <첨부 경로>` |
+| "비용만 추정" / "드라이런" | `--dry-run` |
+
+예시:
+
+> "랜딩 히어로용으로 산 너머 일출, 가로, 고품질로 만들어줘."
+> "세라믹 머그 제품 사진을 모든 벤더로 비교, 각각 세 장씩."
+> "이 수달 사진을 codex로 드라마틱한 야간 분위기로." (참조 이미지 첨부 시)
+
+에이전트는 [Clarification Protocol](#clarification-protocol)을 실행하고, 필요하면 프롬프트를 보강한 뒤 추론된 플래그로 `oma image generate`를 호출합니다. 정확한 플래그 값을 직접 통제하고 싶을 때만 슬래시 커맨드를 쓰면 됩니다.
+
+### 2. 명시적 슬래시 커맨드
 
 ```text
 /oma-image a red apple on white background
@@ -75,7 +104,17 @@ oma image list-vendors
 /oma-image -n 3 --quality high --out ./hero "minimalist dashboard hero illustration"
 ```
 
-슬래시 커맨드는 동일한 `oma image generate` 파이프라인으로 전달되므로, 모든 CLI 플래그가 여기서도 동작합니다.
+모든 CLI 플래그(`--vendor`, `-n`, `--size`, `-r`, `--dry-run`, …)가 슬래시 커맨드에서도 그대로 동작합니다. 동일한 `oma image generate` 파이프라인으로 전달됩니다.
+
+### 3. 다른 스킬에서 (공유 인프라)
+
+다른 스킬(디자인, 마케팅, 문서)은 공유 인프라로 이 파이프라인을 JSON 출력과 함께 호출합니다:
+
+```bash
+oma image generate "<prompt>" --format json
+```
+
+stdout으로 작성되는 매니페스트에는 출력 경로, 벤더, 모델, 비용이 포함되어 파싱과 체이닝이 쉽습니다.
 
 ---
 
@@ -170,7 +209,7 @@ oma image generate -r a.png,b.png "blend these styles" --vendor gemini
 
 ---
 
-## 명확화 프로토콜
+## 명확화 프로토콜 {#clarification-protocol}
 
 `oma image generate`를 호출하기 전에, 호출하는 에이전트는 다음 체크리스트를 실행합니다. 누락되어 있고 추론할 수 없는 것이 있으면 먼저 질문하거나, 프롬프트를 보강하고 그 확장을 사용자에게 보여 승인을 받습니다.
 
@@ -192,18 +231,6 @@ oma image generate -r a.png,b.png "blend these styles" --vendor gemini
 사용자가 완전한 크리에이티브 브리프(피사체 + 스타일 + 조명 + 구도 중 2개 이상)를 작성한 경우, 그 프롬프트는 그대로 존중됩니다(명확화도, 보강도 없음).
 
 **출력 언어.** 생성 프롬프트는 영어로 프로바이더에 전송됩니다 (이미지 모델은 주로 영어 캡션으로 학습됨). 사용자가 다른 언어로 작성한 경우, 에이전트는 번역하여 보강 단계에서 보여주어 사용자가 잘못 읽은 부분을 수정할 수 있도록 합니다.
-
----
-
-## 공유 호출 (다른 스킬에서)
-
-다른 스킬은 공유 인프라로서 이미지 생성을 호출합니다:
-
-```bash
-oma image generate "<prompt>" --format json
-```
-
-stdout으로 작성되는 JSON 매니페스트에는 출력 경로, 벤더, 모델, 비용이 포함되어 파싱과 체이닝이 쉽습니다.
 
 ---
 

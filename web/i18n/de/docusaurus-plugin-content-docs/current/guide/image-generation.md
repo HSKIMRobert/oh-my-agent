@@ -67,7 +67,36 @@ oma image list-vendors
 
 ---
 
-## Slash-Befehl (innerhalb eines Editors)
+## Als Skill verwenden
+
+`oma-image` ist ein Skill — er aktiviert sich automatisch aus natürlicher Sprache und kann auch explizit aufgerufen werden. Es gibt drei Einstiegspunkte.
+
+### 1. Natürliche Sprache (automatische Aktivierung)
+
+Beschreiben Sie das Bild einfach in Claude Code, Codex CLI oder Gemini CLI. Der Skill matcht Keywords wie *image*, *illustration*, *visual asset*, *concept art*, *hero shot*, *thumbnail*, *product photo*.
+
+Sie müssen sich keine CLI-Flags merken — formulieren Sie es in Alltagssprache und der Skill bildet es auf die passenden Optionen ab:
+
+| Sie sagen | Skill leitet ab |
+|---|---|
+| "mit codex" / "mit gpt-image-2" / "kostenloses flux" | `--vendor codex` / `--vendor pollinations` |
+| "über Vendoren vergleichen" / "nebeneinander" | `--vendor all` |
+| "Hochformat" / "Querformat" / "1024×1536" | `--size 1024x1536` / `--size 1536x1024` |
+| "hohe Qualität" / "Entwurf" | `--quality high` / `--quality low` |
+| "drei Varianten" / "gib mir 3" | `-n 3` |
+| "in ./hero speichern" / "Output nach docs/assets" | `--out <dir>` |
+| Angehängtes Bild + "mach es nächtlich" | `-r <Pfad zum Anhang>` |
+| "nur Kosten schätzen" / "dry run" | `--dry-run` |
+
+Beispiele:
+
+> "Generiere einen minimalistischen Sonnenaufgang über Bergen für den Landing-Hero, Querformat, hohe Qualität."
+> "Vergleiche ein Produktfoto einer Keramiktasse über alle Vendoren, jeweils drei Varianten."
+> "Mach dieses Otterfoto mit codex dramatisch und nächtlich." (mit angehängter Referenz)
+
+Der Agent durchläuft das [Klärungsprotokoll](#clarification-protocol), erweitert den Prompt bei Bedarf und ruft `oma image generate` mit den abgeleiteten Flags auf. Verwenden Sie den Slash-Befehl, wenn Sie die exakten Flag-Werte explizit kontrollieren möchten.
+
+### 2. Expliziter Slash-Befehl
 
 ```text
 /oma-image a red apple on white background
@@ -75,7 +104,17 @@ oma image list-vendors
 /oma-image -n 3 --quality high --out ./hero "minimalist dashboard hero illustration"
 ```
 
-Der Slash-Befehl wird an dieselbe `oma image generate`-Pipeline weitergeleitet — jeder CLI-Flag funktioniert auch hier.
+Jeder CLI-Flag (`--vendor`, `-n`, `--size`, `-r`, `--dry-run`, …) funktioniert auch im Slash-Befehl — er wird an dieselbe `oma image generate`-Pipeline weitergeleitet.
+
+### 3. Aus einem anderen Skill (gemeinsame Infrastruktur)
+
+Andere Skills (Design, Marketing, Docs) rufen die Pipeline als gemeinsame Infrastruktur mit JSON-Output auf:
+
+```bash
+oma image generate "<prompt>" --format json
+```
+
+Das auf stdout geschriebene Manifest enthält Output-Pfade, Vendor, Modell und Kosten — leicht zu parsen und zu verketten.
 
 ---
 
@@ -170,7 +209,7 @@ Jeder Lauf schreibt nach `.agents/results/images/` in ein Verzeichnis mit Zeitst
 
 ---
 
-## Klärungsprotokoll
+## Klärungsprotokoll {#clarification-protocol}
 
 Vor dem Aufruf von `oma image generate` arbeitet der aufrufende Agent diese Checkliste ab. Falls etwas fehlt und nicht erschlossen werden kann, fragt er zuerst nach oder erweitert den Prompt und legt die Erweiterung zur Genehmigung vor.
 
@@ -192,18 +231,6 @@ Bei einem kurzen Prompt wie *"a red apple"* stellt der Agent **keine** Rückfrag
 Wenn der Benutzer ein vollständiges kreatives Briefing verfasst hat (≥ 2 von: Subjekt + Stil + Beleuchtung + Komposition), wird sein Prompt wortgetreu respektiert — keine Klärung, keine Erweiterung.
 
 **Output-Sprache.** Generierungs-Prompts werden auf Englisch an den Provider gesendet (Bildmodelle werden überwiegend auf englischen Bildunterschriften trainiert). Hat der Benutzer in einer anderen Sprache geschrieben, übersetzt der Agent und zeigt die Übersetzung während der Erweiterung, damit der Benutzer Fehlinterpretationen korrigieren kann.
-
----
-
-## Gemeinsamer Aufruf (von anderen Skills)
-
-Andere Skills rufen die Bildgenerierung als gemeinsame Infrastruktur auf:
-
-```bash
-oma image generate "<prompt>" --format json
-```
-
-Das nach stdout geschriebene JSON-Manifest enthält Output-Pfade, Vendor, Modell und Kosten — leicht zu parsen und zu verketten.
 
 ---
 

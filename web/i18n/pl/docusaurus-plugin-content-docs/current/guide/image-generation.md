@@ -67,7 +67,36 @@ oma image list-vendors
 
 ---
 
-## Polecenie slash (wewnątrz edytora)
+## Użycie jako umiejętności
+
+`oma-image` to umiejętność — aktywuje się automatycznie z języka naturalnego, ale można ją też wywołać jawnie. Istnieją trzy punkty wejścia.
+
+### 1. Język naturalny (automatyczna aktywacja)
+
+Wewnątrz Claude Code, Codex CLI lub Gemini CLI po prostu opisz obraz. Umiejętność dopasowuje słowa kluczowe takie jak *image*, *illustration*, *visual asset*, *concept art*, *hero shot*, *thumbnail*, *product photo*.
+
+Nie musisz pamiętać flag CLI — powiedz to zwykłym językiem, a umiejętność zmapuje to na właściwe opcje:
+
+| Mówisz | Umiejętność wnioskuje |
+|---|---|
+| "use codex" / "with gpt-image-2" / "free flux" | `--vendor codex` / `--vendor pollinations` |
+| "compare across vendors" / "side by side" | `--vendor all` |
+| "portrait" / "landscape" / "1024×1536" | `--size 1024x1536` / `--size 1536x1024` |
+| "high quality" / "draft" | `--quality high` / `--quality low` |
+| "three variations" / "give me 3" | `-n 3` |
+| "save to ./hero" / "output to docs/assets" | `--out <dir>` |
+| Załączony obraz + "make it nighttime" | `-r <ścieżka załącznika>` |
+| "just estimate the cost" / "dry run" | `--dry-run` |
+
+Przykłady:
+
+> "Wygeneruj minimalistyczny wschód słońca nad górami na hero strony lądowania, krajobraz, wysoka jakość."
+> "Porównaj zdjęcie produktowe ceramicznego kubka u wszystkich vendorów, po trzy warianty z każdego."
+> "Użyj codex, aby zrobić to zdjęcie wydry dramatycznym i nocnym." (z załączoną referencją)
+
+Agent uruchamia [Clarification Protocol](#clarification-protocol), wzmacnia prompt, jeśli to konieczne, i wywołuje `oma image generate` z wywnioskowanymi flagami. Użyj polecenia slash, gdy chcesz mieć jawną kontrolę nad dokładnymi wartościami flag.
+
+### 2. Jawne polecenie slash
 
 ```text
 /oma-image a red apple on white background
@@ -75,7 +104,17 @@ oma image list-vendors
 /oma-image -n 3 --quality high --out ./hero "minimalist dashboard hero illustration"
 ```
 
-Polecenie slash jest przekazywane do tego samego pipeline'u `oma image generate` — każda flaga CLI również tutaj działa.
+Każda flaga CLI (`--vendor`, `-n`, `--size`, `-r`, `--dry-run`, …) działa w poleceniu slash — jest przekazywana do tego samego pipeline'u `oma image generate`.
+
+### 3. Z innej umiejętności (wspólna infrastruktura)
+
+Inne umiejętności (design, marketing, dokumentacja) wywołują pipeline jako wspólną infrastrukturę z wyjściem JSON:
+
+```bash
+oma image generate "<prompt>" --format json
+```
+
+Manifest zapisywany na stdout zawiera ścieżki wyjściowe, vendora, model i koszt — łatwy do parsowania i łańcuchowania.
 
 ---
 
@@ -170,7 +209,7 @@ Każde uruchomienie zapisuje do `.agents/results/images/` w katalogu z sygnatur�
 
 ---
 
-## Protokół doprecyzowania
+## Protokół doprecyzowania {#clarification-protocol}
 
 Przed wywołaniem `oma image generate` agent wywołujący przechodzi przez tę listę kontrolną. Jeśli czegoś brakuje i nie da się tego wywnioskować, najpierw pyta lub wzmacnia prompt i pokazuje rozszerzenie do zatwierdzenia.
 
@@ -192,18 +231,6 @@ Dla krótkiego promptu typu *"a red apple"* agent **nie** zadaje pytań pomocnic
 Gdy użytkownik napisał kompletny brief twórczy (≥ 2 z: temat + styl + oświetlenie + kompozycja), jego prompt jest respektowany dosłownie — bez doprecyzowywania, bez wzmacniania.
 
 **Język wyjściowy.** Prompty generacyjne są wysyłane do dostawcy w języku angielskim (modele obrazów są trenowane głównie na podpisach w języku angielskim). Jeśli użytkownik napisał w innym języku, agent tłumaczy i pokazuje tłumaczenie podczas wzmacniania, aby użytkownik mógł skorygować ewentualne błędy interpretacji.
-
----
-
-## Wspólne wywołanie (z innych umiejętności)
-
-Inne umiejętności wywołują generowanie obrazów jako wspólną infrastrukturę:
-
-```bash
-oma image generate "<prompt>" --format json
-```
-
-Manifest JSON zapisany na stdout zawiera ścieżki wyjściowe, vendora, model i koszt — łatwy do parsowania i łańcuchowania.
 
 ---
 

@@ -67,7 +67,36 @@ oma image list-vendors
 
 ---
 
-## Slash Command (Binnen een Editor)
+## Gebruiken als een Skill
+
+`oma-image` is een skill — hij activeert automatisch op natuurlijke taal en kan ook expliciet worden aangeroepen. Er zijn drie ingangen.
+
+### 1. Natuurlijke Taal (auto-activatie)
+
+Beschrijf het beeld gewoon binnen Claude Code, Codex CLI of Gemini CLI. De skill matcht trefwoorden zoals *image*, *illustration*, *visual asset*, *concept art*, *hero shot*, *thumbnail*, *product photo*.
+
+Je hoeft geen CLI-flags te onthouden — zeg het in gewone taal en de skill mapt het naar de juiste opties:
+
+| Jij zegt | Skill leidt af |
+|---|---|
+| "use codex" / "with gpt-image-2" / "free flux" | `--vendor codex` / `--vendor pollinations` |
+| "compare across vendors" / "side by side" | `--vendor all` |
+| "portret" / "landschap" / "1024×1536" | `--size 1024x1536` / `--size 1536x1024` |
+| "hoge kwaliteit" / "draft" | `--quality high` / `--quality low` |
+| "drie variaties" / "geef me 3" | `-n 3` |
+| "opslaan in ./hero" / "uitvoer naar docs/assets" | `--out <dir>` |
+| Bijgevoegd beeld + "maak het nacht" | `-r <bijgevoegd pad>` |
+| "alleen kosten schatten" / "dry run" | `--dry-run` |
+
+Voorbeelden:
+
+> "Genereer een minimalistische zonsopgang boven bergen voor de landingshero, landschap, hoge kwaliteit."
+> "Vergelijk een keramische mok-productfoto over alle vendors, drie variaties per stuk."
+> "Gebruik codex om deze otterfoto dramatisch en nachtelijk te maken." (met bijgevoegde referentie)
+
+De agent doorloopt het [Clarification Protocol](#clarification-protocol), versterkt de prompt indien nodig en roept `oma image generate` aan met de afgeleide flags. Gebruik het slash command wanneer je expliciete controle wilt over de exacte flag-waarden.
+
+### 2. Expliciet Slash Command
 
 ```text
 /oma-image a red apple on white background
@@ -75,7 +104,17 @@ oma image list-vendors
 /oma-image -n 3 --quality high --out ./hero "minimalist dashboard hero illustration"
 ```
 
-Het slash command wordt doorgestuurd naar dezelfde `oma image generate` pipeline — elke CLI-flag werkt hier ook.
+Elke CLI-flag (`--vendor`, `-n`, `--size`, `-r`, `--dry-run`, …) werkt in het slash command — het wordt doorgestuurd naar dezelfde `oma image generate` pipeline.
+
+### 3. Vanuit een Andere Skill (gedeelde infrastructuur)
+
+Andere skills (design, marketing, docs) roepen de pipeline aan als gedeelde infrastructuur met JSON-uitvoer:
+
+```bash
+oma image generate "<prompt>" --format json
+```
+
+Het manifest dat naar stdout wordt geschreven bevat de uitvoerpaden, vendor, model en kosten — eenvoudig te parsen en te ketenen.
 
 ---
 
@@ -170,7 +209,7 @@ Elke run schrijft naar `.agents/results/images/` met een directory voorzien van 
 
 ---
 
-## Verduidelijkingsprotocol
+## Verduidelijkingsprotocol {#clarification-protocol}
 
 Voordat de aanroepende agent `oma image generate` uitvoert, doorloopt deze deze checklist. Als er iets ontbreekt en niet af te leiden is, vraagt de agent eerst of versterkt de prompt en toont de uitbreiding ter goedkeuring.
 
@@ -192,18 +231,6 @@ Voor een korte prompt zoals *"a red apple"* stelt de agent **geen** vervolgvrage
 Wanneer de gebruiker een volledige creatieve briefing heeft geschreven (≥ 2 van: onderwerp + stijl + belichting + compositie), wordt hun prompt letterlijk gerespecteerd — geen verduidelijking, geen versterking.
 
 **Uitvoertaal.** Generatieprompts worden in het Engels naar de provider gestuurd (beeldmodellen zijn voornamelijk getraind op Engelse captions). Als de gebruiker in een andere taal heeft geschreven, vertaalt de agent en toont de vertaling tijdens de versterking, zodat de gebruiker eventuele misinterpretaties kan corrigeren.
-
----
-
-## Gedeelde Aanroep (Vanuit Andere Skills)
-
-Andere skills roepen beeldgeneratie aan als gedeelde infrastructuur:
-
-```bash
-oma image generate "<prompt>" --format json
-```
-
-Het JSON-manifest dat naar stdout wordt geschreven bevat de uitvoerpaden, vendor, model en kosten — eenvoudig te parsen en te ketenen.
 
 ---
 

@@ -67,7 +67,36 @@ oma image list-vendors
 
 ---
 
-## Slash Command (Trong editor)
+## Sử dụng như một Skill
+
+`oma-image` là một skill — nó tự kích hoạt từ ngôn ngữ tự nhiên và cũng có thể được gọi tường minh. Có ba lối vào.
+
+### 1. Ngôn ngữ tự nhiên (tự kích hoạt)
+
+Trong Claude Code, Codex CLI hay Gemini CLI, chỉ cần mô tả ảnh. Skill khớp các từ khóa như *image*, *illustration*, *visual asset*, *concept art*, *hero shot*, *thumbnail*, *product photo*.
+
+Bạn không cần nhớ flag CLI — cứ nói bằng ngôn ngữ tự nhiên và skill sẽ ánh xạ sang option phù hợp:
+
+| Bạn nói | Skill suy luận |
+|---|---|
+| "dùng codex" / "với gpt-image-2" / "flux miễn phí" | `--vendor codex` / `--vendor pollinations` |
+| "so sánh các vendor" / "xếp cạnh nhau" | `--vendor all` |
+| "dọc" / "ngang" / "1024×1536" | `--size 1024x1536` / `--size 1536x1024` |
+| "chất lượng cao" / "bản nháp" | `--quality high` / `--quality low` |
+| "ba biến thể" / "cho tôi 3 cái" | `-n 3` |
+| "lưu vào ./hero" / "xuất ra docs/assets" | `--out <dir>` |
+| Ảnh đính kèm + "đổi sang ban đêm" | `-r <đường dẫn đính kèm>` |
+| "chỉ ước tính chi phí thôi" / "dry run" | `--dry-run` |
+
+Ví dụ:
+
+> "Tạo một cảnh bình minh tối giản trên núi cho hero của trang landing, ngang, chất lượng cao."
+> "So sánh ảnh sản phẩm cốc gốm trên tất cả vendor, mỗi vendor ba biến thể."
+> "Dùng codex để biến ảnh con rái cá này thành cảnh đêm kịch tính." (kèm ảnh tham chiếu)
+
+Agent sẽ chạy [Quy trình Clarification](#clarification-protocol), khuếch đại prompt nếu cần, rồi gọi `oma image generate` với các flag đã suy luận. Chỉ dùng slash command khi bạn muốn kiểm soát trực tiếp giá trị flag.
+
+### 2. Slash Command tường minh
 
 ```text
 /oma-image a red apple on white background
@@ -75,7 +104,17 @@ oma image list-vendors
 /oma-image -n 3 --quality high --out ./hero "minimalist dashboard hero illustration"
 ```
 
-Slash command được forward đến cùng pipeline `oma image generate` — mọi flag CLI đều hoạt động ở đây.
+Mọi flag CLI (`--vendor`, `-n`, `--size`, `-r`, `--dry-run`, …) đều hoạt động trong slash command — nó được forward đến cùng pipeline `oma image generate`.
+
+### 3. Từ skill khác (hạ tầng dùng chung)
+
+Các skill khác (design, marketing, docs) gọi pipeline như hạ tầng dùng chung với đầu ra JSON:
+
+```bash
+oma image generate "<prompt>" --format json
+```
+
+Manifest ghi ra stdout bao gồm output path, vendor, model và chi phí — dễ parse và chain.
 
 ---
 
@@ -170,7 +209,7 @@ Mỗi run ghi vào `.agents/results/images/` với thư mục có timestamp và 
 
 ---
 
-## Quy trình clarification
+## Quy trình Clarification {#clarification-protocol}
 
 Trước khi gọi `oma image generate`, agent gọi chạy checklist này. Nếu thiếu gì đó và không suy luận được, nó hỏi trước hoặc khuếch đại prompt và hiển thị bản mở rộng để duyệt.
 
@@ -192,18 +231,6 @@ Với prompt ngắn như *"a red apple"*, agent **không** hỏi thêm. Thay và
 Khi user đã viết một creative brief đầy đủ (≥ 2 trong: subject + style + lighting + composition), prompt của họ được tôn trọng nguyên văn — không clarification, không amplification.
 
 **Ngôn ngữ đầu ra.** Prompt sinh ảnh được gửi cho provider bằng tiếng Anh (image model được train chủ yếu trên caption tiếng Anh). Nếu user viết bằng ngôn ngữ khác, agent dịch và hiển thị bản dịch trong lúc amplification để user có thể sửa nếu hiểu sai.
-
----
-
-## Gọi dùng chung (từ skill khác)
-
-Các skill khác gọi sinh ảnh như hạ tầng dùng chung:
-
-```bash
-oma image generate "<prompt>" --format json
-```
-
-JSON manifest ghi ra stdout bao gồm output path, vendor, model và chi phí — dễ parse và chain.
 
 ---
 

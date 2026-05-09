@@ -67,7 +67,36 @@ oma image list-vendors
 
 ---
 
-## Slash command (dans un éditeur)
+## Utiliser comme compétence
+
+`oma-image` est une compétence : elle s'active automatiquement à partir du langage naturel et peut aussi être invoquée explicitement. Il existe trois points d'entrée.
+
+### 1. Langage naturel (activation automatique)
+
+Dans Claude Code, Codex CLI ou Gemini CLI, il suffit de décrire l'image. La compétence reconnaît des mots-clés tels que *image*, *illustration*, *visual asset*, *concept art*, *hero shot*, *thumbnail*, *product photo*.
+
+Inutile de retenir les flags CLI — exprimez-le en langage naturel et la compétence le mappe sur les bonnes options :
+
+| Vous dites | La compétence en déduit |
+|---|---|
+| « use codex » / « with gpt-image-2 » / « free flux » | `--vendor codex` / `--vendor pollinations` |
+| « compare across vendors » / « side by side » | `--vendor all` |
+| « portrait » / « landscape » / « 1024×1536 » | `--size 1024x1536` / `--size 1536x1024` |
+| « high quality » / « draft » | `--quality high` / `--quality low` |
+| « three variations » / « give me 3 » | `-n 3` |
+| « save to ./hero » / « output to docs/assets » | `--out <dir>` |
+| Image attachée + « make it nighttime » | `-r <chemin attaché>` |
+| « just estimate the cost » / « dry run » | `--dry-run` |
+
+Exemples :
+
+> « Generate a minimalist sunrise over mountains for the landing hero, landscape, high quality. »
+> « Compare a ceramic mug product photo across all vendors, three variations each. »
+> « Use codex to make this otter photo dramatic and nighttime. » (avec une référence attachée)
+
+L'agent exécute le [Clarification Protocol](#clarification-protocol), amplifie le prompt si nécessaire, puis appelle `oma image generate` avec les flags inférés. Utilisez la slash command lorsque vous voulez un contrôle explicite sur la valeur exacte des flags.
+
+### 2. Slash command explicite
 
 ```text
 /oma-image a red apple on white background
@@ -75,7 +104,17 @@ oma image list-vendors
 /oma-image -n 3 --quality high --out ./hero "minimalist dashboard hero illustration"
 ```
 
-La slash command est transmise au même pipeline `oma image generate` — chaque flag CLI fonctionne aussi ici.
+Chaque flag CLI (`--vendor`, `-n`, `--size`, `-r`, `--dry-run`, …) fonctionne dans la slash command — il est transmis au même pipeline `oma image generate`.
+
+### 3. Depuis une autre compétence (infrastructure partagée)
+
+D'autres compétences (design, marketing, docs) appellent le pipeline comme infrastructure partagée avec une sortie JSON :
+
+```bash
+oma image generate "<prompt>" --format json
+```
+
+Le manifest écrit sur stdout inclut les chemins de sortie, le fournisseur, le modèle et le coût — facile à parser et à chaîner.
 
 ---
 
@@ -170,7 +209,7 @@ Chaque exécution écrit dans `.agents/results/images/` avec un répertoire horo
 
 ---
 
-## Protocole de clarification
+## Protocole de clarification {#clarification-protocol}
 
 Avant d'invoquer `oma image generate`, l'agent appelant exécute cette checklist. Si quelque chose manque et n'est pas inférable, il pose la question d'abord ou amplifie le prompt et présente l'expansion pour approbation.
 
@@ -192,18 +231,6 @@ Pour un prompt bref comme *"a red apple"*, l'agent ne pose **pas** de questions 
 Lorsque l'utilisateur a rédigé un brief créatif complet (≥ 2 parmi : sujet + style + éclairage + composition), son prompt est respecté à la lettre — pas de clarification, pas d'amplification.
 
 **Langue de sortie.** Les prompts de génération sont envoyés au fournisseur en anglais (les modèles d'image sont entraînés majoritairement sur des légendes en anglais). Si l'utilisateur a écrit dans une autre langue, l'agent traduit et affiche la traduction lors de l'amplification afin que l'utilisateur puisse corriger toute mauvaise interprétation.
-
----
-
-## Invocation partagée (depuis d'autres compétences)
-
-D'autres compétences appellent la génération d'images comme infrastructure partagée :
-
-```bash
-oma image generate "<prompt>" --format json
-```
-
-Le manifest JSON écrit sur stdout inclut les chemins de sortie, le fournisseur, le modèle et le coût — facile à parser et à chaîner.
 
 ---
 
