@@ -76,15 +76,15 @@ Elige un preset y listo:
 | **oma-hwp** | Conversión de HWP/HWPX/HWPML a Markdown |
 | **oma-image** | Generación de imágenes IA multi-proveedor |
 | **oma-mobile** | Apps multiplataforma con Flutter |
-| **oma-observability** | Router de observabilidad — APM/RUM, métricas/logs/trazas/perfiles, SLO, forense de incidentes, ajuste de transporte |
+| **oma-observability** | Router de observabilidad para APM/RUM, métricas/logs/trazas/perfiles, SLO, forense de incidentes y ajuste de transporte |
 | **oma-orchestrator** | Ejecución paralela de agentes vía CLI |
 | **oma-pdf** | Conversión de PDF a Markdown |
 | **oma-pm** | Planifica tareas, desglosa requisitos, define contratos de API |
 | **oma-qa** | Seguridad OWASP, rendimiento, revisión de accesibilidad |
 | **oma-recap** | Analisis del historial de conversaciones y resumenes tematicos de trabajo |
-| **oma-scholar** | Compañero de investigación académica — búsqueda bibliográfica, revisión por pares |
-| **oma-scm** | SCM (gestión de configuración del software): ramas, fusiones, worktrees, líneas base; Conventional Commits |
-| **oma-search** | Router de búsqueda basado en intención + puntuación de confianza — docs, web, código, local |
+| **oma-scholar** | Compañero de investigación académica para búsqueda bibliográfica y revisión por pares |
+| **oma-scm** | Gestión de configuración del software con ramas, fusiones, worktrees, líneas base y Conventional Commits |
+| **oma-search** | Router de búsqueda basado en intención con puntuación de confianza para docs, web, código y local |
 | **oma-skill-creator** | Crea y audita skills OMA en formato SSL-lite |
 | **oma-tf-infra** | IaC multi-cloud con Terraform (Infrastructure as Code) |
 | **oma-translator** | Traducción multilingüe natural |

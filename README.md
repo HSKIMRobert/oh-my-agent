@@ -77,15 +77,15 @@ Pick a preset and you're ready:
 | **oma-hwp** | HWP/HWPX/HWPML to Markdown conversion |
 | **oma-image** | Multi-vendor AI image generation |
 | **oma-mobile** | Flutter cross-platform apps |
-| **oma-observability** | Observability router — APM/RUM, metrics/logs/traces/profiles, SLO, incident forensics, transport tuning |
+| **oma-observability** | Observability router for APM/RUM, metrics/logs/traces/profiles, SLO, incident forensics, transport tuning |
 | **oma-orchestrator** | Parallel agent execution via CLI |
 | **oma-pdf** | PDF to Markdown conversion |
 | **oma-pm** | Plans tasks, breaks down requirements, defines API contracts |
 | **oma-qa** | OWASP security, performance, accessibility review |
 | **oma-recap** | Conversation history recap and themed work summaries |
-| **oma-scholar** | Academic research companion — literature search, peer review |
-| **oma-scm** | SCM (software configuration management) — branching, merges, worktrees, baselines; Conventional Commits |
-| **oma-search** | Intent-based search router with trust scoring — docs, web, code, local |
+| **oma-scholar** | Academic research companion for literature search and peer review |
+| **oma-scm** | Software configuration management with branching, merges, worktrees, baselines, Conventional Commits |
+| **oma-search** | Intent-based search router with trust scoring across docs, web, code, local |
 | **oma-skill-creator** | Authors and audits OMA skills in the SSL-lite format |
 | **oma-tf-infra** | Multi-cloud Terraform IaC (Infrastructure as Code) |
 | **oma-translator** | Natural multilingual translation |

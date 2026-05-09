@@ -76,15 +76,15 @@ Chọn một preset và bạn đã sẵn sàng:
 | **oma-hwp** | Chuyển đổi HWP/HWPX/HWPML sang Markdown |
 | **oma-image** | Tạo ảnh AI đa nhà cung cấp |
 | **oma-mobile** | Ứng dụng đa nền tảng với Flutter |
-| **oma-observability** | Bộ định tuyến observability — APM/RUM, metrics/logs/traces/profiles, SLO, điều tra sự cố, tinh chỉnh transport |
+| **oma-observability** | Bộ định tuyến observability cho APM/RUM, metrics/logs/traces/profiles, SLO, điều tra sự cố và tinh chỉnh transport |
 | **oma-orchestrator** | Thực thi agent song song qua CLI |
 | **oma-pdf** | Chuyển đổi PDF sang Markdown |
 | **oma-pm** | Lập kế hoạch, phân tích yêu cầu, định nghĩa API contract |
 | **oma-qa** | Đánh giá bảo mật OWASP, hiệu suất, accessibility |
 | **oma-recap** | Phan tich lich su hoi thoai va tong ket cong viec theo chu de |
-| **oma-scholar** | Bạn đồng hành nghiên cứu học thuật — tìm tài liệu, bình duyệt |
-| **oma-scm** | SCM (quản lý cấu hình phần mềm): nhánh, merge, worktree, baseline; Conventional Commits |
-| **oma-search** | Bộ định tuyến tìm kiếm theo ý định + điểm tin cậy — tài liệu, web, mã, cục bộ |
+| **oma-scholar** | Bạn đồng hành nghiên cứu học thuật cho việc tìm tài liệu và bình duyệt |
+| **oma-scm** | Quản lý cấu hình phần mềm với nhánh, merge, worktree, baseline, Conventional Commits |
+| **oma-search** | Bộ định tuyến tìm kiếm theo ý định kèm điểm tin cậy cho tài liệu, web, mã và cục bộ |
 | **oma-skill-creator** | Soạn và kiểm tra skill OMA theo định dạng SSL-lite |
 | **oma-tf-infra** | Terraform IaC đa đám mây (Infrastructure as Code) |
 | **oma-translator** | Dịch thuật đa ngôn ngữ tự nhiên |

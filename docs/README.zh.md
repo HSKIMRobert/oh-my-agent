@@ -76,15 +76,15 @@ APM 只分发 skill。workflow、规则、`oma-config.yaml`、关键词检测 ho
 | **oma-hwp** | HWP/HWPX/HWPML 转 Markdown |
 | **oma-image** | 多供应商 AI 图像生成 |
 | **oma-mobile** | Flutter 跨平台应用 |
-| **oma-observability** | 可观测性路由器 —— APM/RUM、指标/日志/追踪/Profile、SLO、事故取证、传输层调优 |
+| **oma-observability** | 涵盖 APM/RUM、指标/日志/追踪/Profile、SLO、事故取证、传输层调优的可观测性路由器 |
 | **oma-orchestrator** | 通过 CLI 并行执行 agent |
 | **oma-pdf** | PDF 转 Markdown |
 | **oma-pm** | 任务规划、需求拆解、API 契约定义 |
 | **oma-qa** | OWASP 安全、性能、无障碍审查 |
 | **oma-recap** | 会话历史分析与主题化工作摘要 |
-| **oma-scholar** | 学术研究伴侣 —— 文献检索、同行评审 |
-| **oma-scm** | SCM（软件配置管理）：分支、合并、worktree、基线、Conventional Commits |
-| **oma-search** | 基于意图的搜索路由器 + 信任评分（文档、网页、代码、本地） |
+| **oma-scholar** | 涵盖文献检索与同行评审的学术研究伴侣 |
+| **oma-scm** | 软件配置管理（SCM），涵盖分支、合并、worktree、基线、Conventional Commits |
+| **oma-search** | 基于意图的搜索路由器，附带信任评分，覆盖文档、网页、代码、本地 |
 | **oma-skill-creator** | 以 SSL-lite 格式编写和审计 OMA skill |
 | **oma-tf-infra** | 多云 Terraform IaC（Infrastructure as Code，基础设施即代码） |
 | **oma-translator** | 自然的多语言翻译 |

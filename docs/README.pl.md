@@ -76,15 +76,15 @@ Wybierz preset i gotowe:
 | **oma-hwp** | Konwersja HWP/HWPX/HWPML do Markdown |
 | **oma-image** | Wielodostawcze generowanie obrazów AI |
 | **oma-mobile** | Wieloplatformowe aplikacje we Flutter |
-| **oma-observability** | Router obserwowalności — APM/RUM, metryki/logi/trace/profile, SLO, analiza incydentów, dostrajanie transportu |
+| **oma-observability** | Router obserwowalności obsługujący APM/RUM, metryki/logi/trace/profile, SLO, analizę incydentów i dostrajanie transportu |
 | **oma-orchestrator** | Rownolegle uruchamianie agentow przez CLI |
 | **oma-pdf** | Konwersja PDF do Markdown |
 | **oma-pm** | Planuje zadania, rozbija wymagania, definiuje kontrakty API |
 | **oma-qa** | Bezpieczenstwo OWASP, wydajnosc, przeglad dostepnosci |
 | **oma-recap** | Analiza historii rozmow i tematyczne podsumowania pracy |
-| **oma-scholar** | Towarzysz badań akademickich — wyszukiwanie literatury, recenzja naukowa |
-| **oma-scm** | SCM (zarządzanie konfiguracją oprogramowania): branchowanie, merge, worktree, baseline; Conventional Commits |
-| **oma-search** | Router wyszukiwania oparty na intencji + ocena zaufania — dokumentacja, web, kod, lokalnie |
+| **oma-scholar** | Towarzysz badań akademickich do wyszukiwania literatury i recenzji naukowej |
+| **oma-scm** | Zarządzanie konfiguracją oprogramowania z branchowaniem, merge, worktree, baseline, Conventional Commits |
+| **oma-search** | Router wyszukiwania oparty na intencji z oceną zaufania dla dokumentacji, web, kodu i wyszukiwania lokalnego |
 | **oma-skill-creator** | Tworzy i audytuje skille OMA w formacie SSL-lite |
 | **oma-tf-infra** | Wielochmurowy IaC z Terraform (Infrastructure as Code) |
 | **oma-translator** | Naturalne tlumaczenie wielojezyczne |

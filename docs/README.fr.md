@@ -76,15 +76,15 @@ Choisis un preset et c'est parti :
 | **oma-hwp** | Conversion HWP/HWPX/HWPML vers Markdown |
 | **oma-image** | Génération d'images IA multi-fournisseur |
 | **oma-mobile** | Apps multiplateformes avec Flutter |
-| **oma-observability** | Routeur d'observabilité — APM/RUM, métriques/logs/traces/profils, SLO, forensique d'incidents, tuning du transport |
+| **oma-observability** | Routeur d'observabilité pour APM/RUM, métriques/logs/traces/profils, SLO, forensique d'incidents et tuning du transport |
 | **oma-orchestrator** | Exécution parallèle d'agents via CLI |
 | **oma-pdf** | Conversion PDF vers Markdown |
 | **oma-pm** | Planifie les tâches, découpe les specs, définit les contrats d'API |
 | **oma-qa** | Sécurité OWASP, performance, revue d'accessibilité |
 | **oma-recap** | Analyse de l'historique des conversations et resumes thematiques du travail |
-| **oma-scholar** | Compagnon de recherche académique — recherche bibliographique, évaluation par les pairs |
-| **oma-scm** | SCM (gestion de configuration logicielle) — branches, fusions, worktrees, références de base ; Conventional Commits |
-| **oma-search** | Routeur de recherche basé sur l'intention + score de confiance — docs, web, code, local |
+| **oma-scholar** | Compagnon de recherche académique pour la recherche bibliographique et l'évaluation par les pairs |
+| **oma-scm** | Gestion de configuration logicielle avec branches, fusions, worktrees, références de base, Conventional Commits |
+| **oma-search** | Routeur de recherche basé sur l'intention avec score de confiance pour docs, web, code et local |
 | **oma-skill-creator** | Rédige et audite les skills OMA au format SSL-lite |
 | **oma-tf-infra** | IaC multi-cloud avec Terraform (Infrastructure as Code) |
 | **oma-translator** | Traduction multilingue naturelle |

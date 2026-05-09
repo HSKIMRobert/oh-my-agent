@@ -76,15 +76,15 @@ Wähl ein Preset und los geht's:
 | **oma-hwp** | HWP/HWPX/HWPML-zu-Markdown-Konvertierung |
 | **oma-image** | Multi-Vendor KI-Bildgenerierung |
 | **oma-mobile** | Plattformübergreifende Apps mit Flutter |
-| **oma-observability** | Observability-Router — APM/RUM, Metriken/Logs/Traces/Profile, SLO, Incident-Forensik, Transport-Tuning |
+| **oma-observability** | Observability-Router für APM/RUM, Metriken/Logs/Traces/Profile, SLO, Incident-Forensik und Transport-Tuning |
 | **oma-orchestrator** | Parallele Agentenausführung über CLI |
 | **oma-pdf** | PDF-zu-Markdown-Konvertierung |
 | **oma-pm** | Plant Aufgaben, zerlegt Anforderungen, definiert API-Verträge |
 | **oma-qa** | OWASP-Sicherheit, Performance, Barrierefreiheits-Review |
 | **oma-recap** | Analyse des Gespraechsverlaufs und thematischer Arbeitszusammenfassungen |
-| **oma-scholar** | Begleiter für akademische Forschung — Literaturrecherche, Peer-Review |
-| **oma-scm** | SCM (Software-Konfigurationsmanagement): Branching, Merges, Worktrees, Baselines; Conventional Commits |
-| **oma-search** | Intent-basierter Such-Router + Vertrauensbewertung — Docs, Web, Code, Lokal |
+| **oma-scholar** | Begleiter für akademische Forschung mit Literaturrecherche und Peer-Review |
+| **oma-scm** | Software-Konfigurationsmanagement mit Branching, Merges, Worktrees, Baselines, Conventional Commits |
+| **oma-search** | Intent-basierter Such-Router mit Vertrauensbewertung für Docs, Web, Code und Lokal |
 | **oma-skill-creator** | OMA-Skills im SSL-lite-Format erstellen und prüfen |
 | **oma-tf-infra** | Multi-Cloud IaC mit Terraform (Infrastructure as Code) |
 | **oma-translator** | Natürliche mehrsprachige Übersetzung |

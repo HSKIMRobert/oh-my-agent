@@ -76,15 +76,15 @@ APM แจกแค่ skill เท่านั้น ส่วน workflow, rul
 | **oma-hwp** | แปลงไฟล์ HWP/HWPX/HWPML เป็น Markdown |
 | **oma-image** | สร้างภาพ AI แบบหลายผู้ให้บริการ |
 | **oma-mobile** | จัดการ cross platform application ด้วย Flutter |
-| **oma-observability** | เราเตอร์ด้านการสังเกตระบบ (observability) — APM/RUM, metrics/logs/traces/profiles, SLO, วิเคราะห์สาเหตุเหตุการณ์, ปรับจูน transport |
+| **oma-observability** | เราเตอร์ด้านการสังเกตระบบ (observability) ครอบคลุม APM/RUM, metrics/logs/traces/profiles, SLO, วิเคราะห์สาเหตุเหตุการณ์ และปรับจูน transport |
 | **oma-orchestrator** | รันเอเจนต์แบบ parallel ผ่าน CLI |
 | **oma-pdf** | แปลงไฟล์ PDF เป็น Markdown |
 | **oma-pm** | วางแผนงาน, ย่อย requirements, กำหนด API contracts |
 | **oma-qa** | ตรวจสอบความปลอดภัยตามมาตรฐาน OWASP, ประสิทธิภาพ, accessibility |
 | **oma-recap** | วิเคราะห์ประวัติการสนทนาและสรุปงานตามธีม |
-| **oma-scholar** | เพื่อนร่วมวิจัยเชิงวิชาการ — ค้นหาวรรณกรรม, ทบทวนโดยเพื่อนร่วมงาน |
-| **oma-scm** | การจัดการโครงสร้างซอฟต์แวร์ (SCM): แตกกิ่ง (branching), รวมโค้ด (merges), worktrees; รองรับ Conventional Commits |
-| **oma-search** | เราเตอร์ค้นหาตามเจตนา + คะแนนความน่าเชื่อถือ — เอกสาร, เว็บ, โค้ด, โลคัล |
+| **oma-scholar** | เพื่อนร่วมวิจัยเชิงวิชาการสำหรับค้นหาวรรณกรรมและทบทวนโดยเพื่อนร่วมงาน |
+| **oma-scm** | การจัดการโครงสร้างซอฟต์แวร์ (SCM) ครอบคลุมการแตกกิ่ง (branching), รวมโค้ด (merges), worktrees และรองรับ Conventional Commits |
+| **oma-search** | เราเตอร์ค้นหาตามเจตนาพร้อมคะแนนความน่าเชื่อถือ ครอบคลุมเอกสาร เว็บ โค้ด และโลคัล |
 | **oma-skill-creator** | เขียนและตรวจสอบ OMA skill ในรูปแบบ SSL-lite |
 | **oma-tf-infra** | Multi-cloud Terraform IaC (Infrastructure as Code) |
 | **oma-translator** | การแปลภาษาหลากหลายภาษาอย่างเป็นธรรมชาติ |

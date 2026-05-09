@@ -76,15 +76,15 @@ Kies een preset en je bent klaar:
 | **oma-hwp** | HWP/HWPX/HWPML naar Markdown conversie |
 | **oma-image** | Multi-vendor AI-beeldgeneratie |
 | **oma-mobile** | Cross-platform apps met Flutter |
-| **oma-observability** | Observability-router — APM/RUM, metrics/logs/traces/profiles, SLO, incident forensics, transport-tuning |
+| **oma-observability** | Observability-router voor APM/RUM, metrics/logs/traces/profiles, SLO, incident forensics en transport-tuning |
 | **oma-orchestrator** | Parallelle agent-uitvoering via CLI |
 | **oma-pdf** | PDF naar Markdown conversie |
 | **oma-pm** | Plant taken, splitst requirements op, definieert API-contracten |
 | **oma-qa** | OWASP-beveiliging, performance, toegankelijkheidsreview |
 | **oma-recap** | Analyse van gespreksgeschiedenis en thematische werksamenvattingen |
-| **oma-scholar** | Academische onderzoekspartner — literatuuronderzoek, peer review |
-| **oma-scm** | SCM (softwareconfiguratiebeheer): branching, merges, worktrees, baselines; Conventional Commits |
-| **oma-search** | Intentiegebaseerde zoekrouter + vertrouwensscore — docs, web, code, lokaal |
+| **oma-scholar** | Academische onderzoekspartner voor literatuuronderzoek en peer review |
+| **oma-scm** | Softwareconfiguratiebeheer met branching, merges, worktrees, baselines, Conventional Commits |
+| **oma-search** | Intentiegebaseerde zoekrouter met vertrouwensscore voor docs, web, code en lokaal |
 | **oma-skill-creator** | Schrijft en auditeert OMA-skills in het SSL-lite-formaat |
 | **oma-tf-infra** | Multi-cloud Terraform IaC (Infrastructure as Code) |
 | **oma-translator** | Natuurlijke meertalige vertaling |
