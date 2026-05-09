@@ -19,6 +19,10 @@ const {
   startsWithSlashCommand,
   stripCodeBlocks,
   discoverSkills,
+  parseExplicitSlash,
+  parseSkillFrontmatter,
+  findHiddenSkill,
+  formatHiddenSkillContext,
 } = await import("../../.agents/hooks/core/skill-injector.ts");
 
 describe("skill-injector", () => {
@@ -386,6 +390,133 @@ describe("skill-injector", () => {
         false,
       );
       expect(discoverSkills("/repo")).toEqual([]);
+    });
+  });
+
+  describe("parseExplicitSlash", () => {
+    it("extracts a leading slash command name", () => {
+      expect(parseExplicitSlash("/ralph")).toBe("ralph");
+      expect(parseExplicitSlash("  /oma-image generate cat")).toBe("oma-image");
+    });
+
+    it("extracts a slash command after whitespace anywhere in the prompt", () => {
+      expect(parseExplicitSlash("플랜 B까지 하세요 /ralph")).toBe("ralph");
+      expect(parseExplicitSlash("run /loop /foo")).toBe("loop");
+    });
+
+    it("ignores slashes in URLs and paths", () => {
+      expect(parseExplicitSlash("see https://example.com/foo")).toBe(null);
+      expect(parseExplicitSlash("path/to/file")).toBe(null);
+    });
+
+    it("returns null when no slash command is present", () => {
+      expect(parseExplicitSlash("just regular text")).toBe(null);
+      expect(parseExplicitSlash("")).toBe(null);
+    });
+
+    it("requires a name to start with a letter", () => {
+      expect(parseExplicitSlash("/123abc")).toBe(null);
+    });
+  });
+
+  describe("parseSkillFrontmatter", () => {
+    it("parses scalar values, booleans, and quotes", () => {
+      const content = [
+        "---",
+        "name: ralph",
+        "description: Ralph loop",
+        "disable-model-invocation: true",
+        'aliases: "r"',
+        "---",
+        "",
+        "# /ralph",
+        "Body text.",
+      ].join("\n");
+      const { frontmatter, body } = parseSkillFrontmatter(content);
+      expect(frontmatter.name).toBe("ralph");
+      expect(frontmatter["disable-model-invocation"]).toBe(true);
+      expect(frontmatter.aliases).toBe("r");
+      expect(body.trim().startsWith("# /ralph")).toBe(true);
+    });
+
+    it("returns the whole content as body when no frontmatter", () => {
+      const { frontmatter, body } = parseSkillFrontmatter("just body");
+      expect(frontmatter).toEqual({});
+      expect(body).toBe("just body");
+    });
+  });
+
+  describe("findHiddenSkill", () => {
+    it("returns the skill when vendor dir has disable-model-invocation: true", () => {
+      const skillContent = [
+        "---",
+        "name: ralph",
+        "disable-model-invocation: true",
+        "---",
+        "",
+        "# /ralph",
+        "Read and follow `.agents/workflows/ralph.md`.",
+      ].join("\n");
+
+      (fs.existsSync as unknown as ReturnType<typeof vi.fn>).mockImplementation(
+        (p: string) =>
+          p.replace(/\\/g, "/").endsWith("/.claude/skills/ralph/SKILL.md"),
+      );
+      (fs.readFileSync as unknown as ReturnType<typeof vi.fn>).mockReturnValue(
+        skillContent,
+      );
+
+      const entry = findHiddenSkill("ralph", "/repo", "claude");
+      expect(entry).not.toBe(null);
+      expect(entry?.name).toBe("ralph");
+      expect(entry?.skillRelPath).toContain(".claude/skills/ralph/SKILL.md");
+      expect(entry?.body).toContain("Read and follow");
+    });
+
+    it("returns null when frontmatter lacks disable-model-invocation", () => {
+      (fs.existsSync as unknown as ReturnType<typeof vi.fn>).mockReturnValue(
+        true,
+      );
+      (fs.readFileSync as unknown as ReturnType<typeof vi.fn>).mockReturnValue(
+        "---\nname: foo\n---\n\nbody",
+      );
+      expect(findHiddenSkill("foo", "/repo", "claude")).toBe(null);
+    });
+
+    it("returns null when SKILL.md is missing in both candidate paths", () => {
+      (fs.existsSync as unknown as ReturnType<typeof vi.fn>).mockReturnValue(
+        false,
+      );
+      expect(findHiddenSkill("nope", "/repo", "claude")).toBe(null);
+    });
+
+    it("falls back to .agents/skills when the vendor dir does not have the skill", () => {
+      const skillContent =
+        "---\nname: shared\ndisable-model-invocation: true\n---\nshared body";
+      (fs.existsSync as unknown as ReturnType<typeof vi.fn>).mockImplementation(
+        (p: string) =>
+          p.replace(/\\/g, "/").endsWith("/.agents/skills/shared/SKILL.md"),
+      );
+      (fs.readFileSync as unknown as ReturnType<typeof vi.fn>).mockReturnValue(
+        skillContent,
+      );
+
+      const entry = findHiddenSkill("shared", "/repo", "codex");
+      expect(entry?.skillRelPath).toContain(".agents/skills/shared/SKILL.md");
+    });
+  });
+
+  describe("formatHiddenSkillContext", () => {
+    it("emits the OMA HIDDEN SKILL INVOKED header and the SKILL.md body", () => {
+      const ctx = formatHiddenSkillContext({
+        name: "ralph",
+        skillRelPath: ".claude/skills/ralph/SKILL.md",
+        body: "# /ralph\nRead and follow `.agents/workflows/ralph.md`.",
+      });
+      expect(ctx).toContain("[OMA HIDDEN SKILL INVOKED: ralph]");
+      expect(ctx).toContain(".claude/skills/ralph/SKILL.md");
+      expect(ctx).toContain("Read and follow `.agents/workflows/ralph.md`");
+      expect(ctx).toContain("Do NOT respond that the skill is unavailable.");
     });
   });
 });

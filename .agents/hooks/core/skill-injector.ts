@@ -326,6 +326,95 @@ export function startsWithSlashCommand(prompt: string): boolean {
   return /^\/[a-zA-Z][\w-]*/.test(prompt.trim());
 }
 
+// Match an explicit `/<name>` token at the very start of the prompt
+// or after whitespace. Stays conservative to avoid path/URL false positives.
+export function parseExplicitSlash(prompt: string): string | null {
+  const m = /(?:^|\s)\/([a-z][a-z0-9_-]{0,40})\b/i.exec(prompt);
+  return m?.[1] ?? null;
+}
+
+// ── Hidden Skill Resolution ───────────────────────────────────
+
+export interface HiddenSkillEntry {
+  name: string;
+  skillRelPath: string;
+  body: string;
+}
+
+const VENDOR_SKILL_ROOT: Record<Vendor, string> = {
+  claude: ".claude",
+  codex: ".codex",
+  cursor: ".cursor",
+  gemini: ".gemini",
+  qwen: ".qwen",
+};
+
+export function parseSkillFrontmatter(content: string): {
+  frontmatter: Record<string, string | boolean>;
+  body: string;
+} {
+  const m = /^---\s*\r?\n([\s\S]*?)\r?\n---\s*\r?\n?([\s\S]*)$/.exec(content);
+  if (!m) return { frontmatter: {}, body: content };
+  const fm: Record<string, string | boolean> = {};
+  const block = m[1] ?? "";
+  for (const line of block.split(/\r?\n/)) {
+    const kv = /^([a-z][\w-]*)\s*:\s*(.*)$/i.exec(line);
+    if (!kv) continue;
+    const key = kv[1];
+    const rawValue = (kv[2] ?? "").trim();
+    if (!key) continue;
+    if (rawValue === "true") fm[key] = true;
+    else if (rawValue === "false") fm[key] = false;
+    else fm[key] = rawValue.replace(/^['"]|['"]$/g, "");
+  }
+  return { frontmatter: fm, body: m[2] ?? "" };
+}
+
+export function findHiddenSkill(
+  name: string,
+  projectDir: string,
+  vendor: Vendor,
+): HiddenSkillEntry | null {
+  const vendorRoot = VENDOR_SKILL_ROOT[vendor];
+  const candidates = [
+    join(projectDir, vendorRoot, "skills", name, "SKILL.md"),
+    join(projectDir, ".agents", "skills", name, "SKILL.md"),
+  ];
+
+  for (const skillPath of candidates) {
+    if (!existsSync(skillPath)) continue;
+    let content: string;
+    try {
+      content = readFileSync(skillPath, "utf-8");
+    } catch {
+      continue;
+    }
+    const { frontmatter, body } = parseSkillFrontmatter(content);
+    if (frontmatter["disable-model-invocation"] !== true) continue;
+    return {
+      name,
+      skillRelPath: skillPath.startsWith(`${projectDir}/`)
+        ? skillPath.slice(projectDir.length + 1)
+        : skillPath,
+      body: body.trim(),
+    };
+  }
+  return null;
+}
+
+export function formatHiddenSkillContext(entry: HiddenSkillEntry): string {
+  return [
+    `[OMA HIDDEN SKILL INVOKED: ${entry.name}]`,
+    `User explicitly typed /${entry.name}. This skill has \`disable-model-invocation: true\` so it does NOT appear in the available-skills list and is NOT callable via the Skill tool.`,
+    "",
+    `Honor the user's explicit invocation by reading the SKILL.md at \`${entry.skillRelPath}\` and following its instructions:`,
+    "",
+    entry.body,
+    "",
+    "Read any referenced workflow / resource files and proceed step by step. Do NOT respond that the skill is unavailable.",
+  ].join("\n");
+}
+
 export function stripCodeBlocks(text: string): string {
   return text
     .replace(/(`{3,})[^\n]*\n[\s\S]*?\1/g, "")
@@ -371,6 +460,22 @@ async function main() {
   const prompt = (input.prompt as string) ?? "";
 
   if (!prompt.trim()) process.exit(0);
+
+  // Explicit `/<name>` slash invocation: if it resolves to a hidden skill
+  // (disable-model-invocation: true), inject the SKILL.md body so the model
+  // honors the user's intent. Must run BEFORE the slash early-exit and the
+  // persistent-workflow guard, since both would otherwise drop the signal.
+  const slashName = parseExplicitSlash(prompt);
+  if (slashName) {
+    const hidden = findHiddenSkill(slashName, projectDir, vendor);
+    if (hidden) {
+      process.stdout.write(
+        makePromptOutput(vendor, formatHiddenSkillContext(hidden)),
+      );
+      process.exit(0);
+    }
+  }
+
   if (startsWithSlashCommand(prompt)) process.exit(0);
   if (isPersistentWorkflowActive(projectDir, sessionId)) process.exit(0);
 
