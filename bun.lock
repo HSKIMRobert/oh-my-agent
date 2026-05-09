@@ -13,7 +13,7 @@
     },
     "cli": {
       "name": "oh-my-agent",
-      "version": "6.17.0",
+      "version": "7.2.0",
       "bin": {
         "oh-my-agent": "./bin/cli.js",
         "oma": "./bin/cli.js",
@@ -26,6 +26,7 @@
         "chokidar": "^5.0.0",
         "commander": "^14.0.3",
         "date-fns": "^4.1.0",
+        "eld": "^2.0.3",
         "fast-xml-parser": "^4",
         "minimatch": "^10.2.5",
         "p-map": "^7.0.4",
@@ -53,7 +54,7 @@
     },
     "web": {
       "name": "web",
-      "version": "2.1.1",
+      "version": "3.0.2",
       "dependencies": {
         "@docusaurus/core": "3.10.0",
         "@docusaurus/preset-classic": "3.10.0",
@@ -1290,6 +1291,8 @@
     "eastasianwidth": ["eastasianwidth@0.2.0", "", {}, "sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA=="],
 
     "ee-first": ["ee-first@1.1.1", "", {}, "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="],
+
+    "eld": ["eld@2.0.3", "", {}, "sha512-KiwFrycPPJ2XgKb7MGsJ3m3grUFXq6+55R8ZuS9fj+Qv0WRFgeEBhmorHO/YwHV9VqhdJURKFGJ+CY24sEikOw=="],
 
     "electron-to-chromium": ["electron-to-chromium@1.5.339", "", {}, "sha512-Is+0BBHJ4NrdpAYiperrmp53pLywG/yV/6lIMTAnhxvzj/Cmn5Q/ogSHC6AKe7X+8kPLxxFk0cs5oc/3j/fxIg=="],
 

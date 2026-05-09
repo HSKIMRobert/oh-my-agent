@@ -187,6 +187,90 @@ describe("lintI18nStyle - cjk-em-dash rule", () => {
   });
 });
 
+describe("lintI18nStyle - wrong-language rule", () => {
+  // Generate body content long enough (>= 200 chars) to pass the
+  // minDetectionChars threshold. Use repeating phrases for stable detection.
+  const koBody = "이것은 한국어 본문입니다. 워크플로우와 에이전트에 대해 설명합니다. 모델 프리셋을 통해 각 에이전트가 사용할 모델을 구성할 수 있습니다. 빌트인 프리셋을 선택하거나 개별 에이전트를 재정의하거나 사용자 정의 프리셋을 정의할 수 있습니다.\n";
+  const enBody = "This is the English body content describing workflows and agents. The model_preset configures which AI model each agent uses. You can pick a built-in preset, override individual agents, or define custom presets with extends.\n";
+
+  it("does not flag when body language matches expected", () => {
+    const root = mkrepo();
+    try {
+      writeFile(
+        root,
+        "web/i18n/ko/docusaurus-plugin-content-docs/current/a.md",
+        `# 제목\n\n${koBody}`,
+      );
+      const issues = lintI18nStyle({
+        repoRoot: root,
+        rules: ["wrong-language"],
+      });
+      expect(issues).toEqual([]);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it("flags untranslated EN-as-placeholder under ko/", () => {
+    const root = mkrepo();
+    try {
+      writeFile(
+        root,
+        "web/i18n/ko/docusaurus-plugin-content-docs/current/a.md",
+        `# Title\n\n${enBody}`,
+      );
+      const issues = lintI18nStyle({
+        repoRoot: root,
+        rules: ["wrong-language"],
+      });
+      expect(issues).toHaveLength(1);
+      expect(issues[0]?.rule).toBe("wrong-language");
+      expect(issues[0]?.lang).toBe("ko");
+      expect(issues[0]?.match).toContain("detected=en");
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it("skips files shorter than minDetectionChars", () => {
+    const root = mkrepo();
+    try {
+      writeFile(
+        root,
+        "web/i18n/ko/docusaurus-plugin-content-docs/current/a.md",
+        "# Hi\n\nshort.\n",
+      );
+      const issues = lintI18nStyle({
+        repoRoot: root,
+        rules: ["wrong-language"],
+        minDetectionChars: 100,
+      });
+      expect(issues).toEqual([]);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it("ignores code blocks when assessing body language", () => {
+    const root = mkrepo();
+    try {
+      // Body is Korean prose; large code block is English. Should not flag.
+      writeFile(
+        root,
+        "web/i18n/ko/docusaurus-plugin-content-docs/current/a.md",
+        `# 제목\n\n${koBody}\n\n\`\`\`bash\n# all this English code should be ignored\nfor i in $(seq 1 10); do\n  echo "iteration $i"\ndone\n\`\`\`\n`,
+      );
+      const issues = lintI18nStyle({
+        repoRoot: root,
+        rules: ["wrong-language"],
+      });
+      expect(issues).toEqual([]);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+});
+
 describe("summarizeStyleIssues", () => {
   it("aggregates by rule, lang, and file", () => {
     const issues = [
