@@ -234,8 +234,8 @@ function buildVendorBlock(vendor: string, rules: ParsedRule[]): string {
     "",
     "## Rules",
     "",
-    "1. **Do not modify `.agents/` files** — SSOT protection",
-    "2. Workflows execute via keyword detection or explicit naming — never self-initiated",
+    "1. **Do not modify `.agents/` files** (SSOT protection).",
+    "2. Workflows execute via keyword detection or explicit naming, never self-initiated.",
     "3. Response language follows `.agents/oma-config.yaml`",
     "",
   ];
