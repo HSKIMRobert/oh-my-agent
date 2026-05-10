@@ -219,6 +219,7 @@ function buildVendorBlock(vendor: string, rules: ParsedRule[]): string {
     "| brainstorm | `brainstorm.md` | Design-first ideation |",
     "| review | `review.md` | QA audit |",
     "| debug | `debug.md` | Root cause + minimal fix |",
+    "| deepsec | `deepsec.md` | Drive `oma-deepsec` end-to-end (setup / scan / pr-review / matchers / triage) |",
     "| scm | `scm.md` | SCM + Git operations + Conventional Commits |",
     "| docs | `docs.md` | Documentation drift verify + sync |",
     "",
