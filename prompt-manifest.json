@@ -1,7 +1,7 @@
 {
   "name": "oh-my-agent",
   "version": "7.3.3",
-  "releaseDate": "2026-05-09T15:26:52.265Z",
+  "releaseDate": "2026-05-10T04:26:34.688Z",
   "repository": "https://github.com/first-fluke/oh-my-agent",
   "files": [
     {
@@ -126,8 +126,8 @@
     },
     {
       "path": ".agents/hooks/core/triggers.json",
-      "sha256": "c0d576f9e9f7dfbf9917e9c202fed6c16dcdad6c4abd619cb699c18778349535",
-      "size": 71180
+      "sha256": "c00e161c389d82de65626bd90e66ab504b349c128353b86211087bcd6d28d6d8",
+      "size": 73657
     },
     {
       "path": ".agents/hooks/core/types.ts",
@@ -608,6 +608,41 @@
       "path": ".agents/skills/oma-debug/resources/execution-protocol.md",
       "sha256": "f9ef6d47d595bd93beb18f83e65e85112fd4dd268bd7488df32a859c4a1e4055",
       "size": 2393
+    },
+    {
+      "path": ".agents/skills/oma-deepsec/SKILL.md",
+      "sha256": "26a0940ba8188e268d04d777acb4d542913ce59ae9b76d62910218079893ee85",
+      "size": 21582
+    },
+    {
+      "path": ".agents/skills/oma-deepsec/resources/config.md",
+      "sha256": "d989c9819b202693bdea0f69affcc1931d04df1f5181f637e169dc82c23a127d",
+      "size": 9048
+    },
+    {
+      "path": ".agents/skills/oma-deepsec/resources/matchers.md",
+      "sha256": "40d74a7d33a33bcaf2e823394eca5bbc80fda2645f82ff760fad1c24d50fe887",
+      "size": 9194
+    },
+    {
+      "path": ".agents/skills/oma-deepsec/resources/pr-review.md",
+      "sha256": "f7ac18947c4bf0608c7747aa3b505a70a7898a08d7f6a35aaf449f5df3bc363f",
+      "size": 7399
+    },
+    {
+      "path": ".agents/skills/oma-deepsec/resources/scanning.md",
+      "sha256": "081505177d97b0098327a05b098dd75cefc158ebcbb1dcb31580db43206da4f0",
+      "size": 7097
+    },
+    {
+      "path": ".agents/skills/oma-deepsec/resources/setup.md",
+      "sha256": "716f1f2c67cd2d4d05e5292bfe9004ea2044236d4a9ec67ad3636e827b3a2326",
+      "size": 5980
+    },
+    {
+      "path": ".agents/skills/oma-deepsec/resources/triage.md",
+      "sha256": "913fce80a6bed170871bdb24a7717281ce5d9379506752ae16b924f5edd79173",
+      "size": 7530
     },
     {
       "path": ".agents/skills/oma-design/SKILL.md",
@@ -1425,6 +1460,11 @@
       "size": 14339
     },
     {
+      "path": ".agents/workflows/deepsec.md",
+      "sha256": "ef3d59e6bfd0a8c93223e2fe8993d125818dc0a043ed9ca843bb7f076dfff119",
+      "size": 11927
+    },
+    {
       "path": ".agents/workflows/design.md",
       "sha256": "b4fe8003d96387fd84cb11c09d1d6046efc2b98d7820ad7fd0fa8bf1a5b97079",
       "size": 6047
@@ -1504,8 +1544,8 @@
     "algorithm": "sha256"
   },
   "metadata": {
-    "skillCount": 26,
-    "workflowCount": 19,
-    "totalFiles": 299
+    "skillCount": 27,
+    "workflowCount": 20,
+    "totalFiles": 307
   }
 }
