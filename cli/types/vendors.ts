@@ -1,4 +1,12 @@
-export type VendorType = "claude" | "codex" | "cursor" | "gemini" | "qwen";
+import type { VENDORS } from "../constants/vendors.js";
+
+/**
+ * Canonical vendor type, derived from the `VENDORS` runtime constant in
+ * `cli/constants/vendors.ts`. The constant is the source of truth; this type
+ * stays in sync via the `typeof` derivation. See the comment on `VENDORS`
+ * for the inclusion rationale (especially the cursor partial-support note).
+ */
+export type VendorType = (typeof VENDORS)[number];
 
 /** CLI tools that support skill symlinking. */
 export const CLI_TOOLS = ["claude", "copilot", "hermes"] as const;

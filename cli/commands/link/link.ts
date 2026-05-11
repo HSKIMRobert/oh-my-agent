@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import pc from "picocolors";
+import { VENDORS } from "../../constants/vendors.js";
 import {
   generateCursorRules,
   mergeRulesIndexForVendor,
@@ -138,7 +139,7 @@ export function link(vendorFilter?: string[]): void {
 
   // 4. Merge vendor documentation (CLAUDE.md, GEMINI.md, AGENTS.md)
   const mergedFiles = new Set<string>();
-  for (const v of ["claude", "gemini", "codex", "cursor", "qwen"] as const) {
+  for (const v of VENDORS) {
     if (!configuredVendors.includes(v)) continue;
     const target =
       v === "claude" ? "CLAUDE.md" : v === "gemini" ? "GEMINI.md" : "AGENTS.md";

@@ -13,6 +13,7 @@ import {
 import { dirname, join, resolve } from "node:path";
 import * as p from "@clack/prompts";
 import pc from "picocolors";
+import { VENDORS } from "../../constants/vendors.js";
 import {
   isAlreadyStarred,
   isGhAuthenticated,
@@ -717,7 +718,7 @@ export async function install(options: InstallOptions = {}): Promise<void> {
 
     // Merge usage guide + rules index into single-file vendor docs
     const mergedFiles = new Set<string>();
-    for (const v of ["claude", "gemini", "codex", "cursor", "qwen"] as const) {
+    for (const v of VENDORS) {
       if (!vendors.includes(v)) continue;
       const target =
         v === "claude"

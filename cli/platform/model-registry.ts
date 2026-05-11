@@ -6,6 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { parse as parseYaml } from "yaml";
 import { z } from "zod";
+import { VENDORS } from "../constants/vendors.js";
 
 export type RuntimeId =
   | "claude"
@@ -451,7 +452,7 @@ const EffortSpecSchema = z.union([
 ]);
 
 const ModelSpecSchema = z.object({
-  cli: z.enum(["claude", "codex", "gemini", "cursor", "qwen"]),
+  cli: z.enum(VENDORS),
   cli_model: z.string().min(1),
   supports: z.object({
     effort: EffortSpecSchema,
