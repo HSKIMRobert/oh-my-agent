@@ -59,6 +59,16 @@ export function isAutoUpdateCliEnabled(cwd?: string): boolean {
 }
 
 /**
+ * Read telemetry from oma-config.yaml. Defaults to false (opt-in).
+ * When true, oh-my-agent omits `DISABLE_TELEMETRY` from `.claude/settings.json`
+ * so features that gate on telemetry (e.g. Remote Control) keep working.
+ */
+export function isTelemetryEnabled(cwd?: string): boolean {
+  const config = loadOmaConfig(cwd);
+  return config?.telemetry === true;
+}
+
+/**
  * Read timezone from oma-config.yaml.
  * Falls back to system timezone.
  */

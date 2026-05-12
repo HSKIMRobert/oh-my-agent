@@ -43,6 +43,14 @@ export const RECOMMENDED_CODEX_FEATURES = {
 //   warnings.
 export const DEPRECATED_CODEX_FEATURES = ["codex_hooks"] as const;
 
+// `analytics.enabled` (default true) sends anonymized usage data to OpenAI.
+// `feedback.enabled` (default true) controls user feedback submission.
+// Both are gated on the `telemetry` flag from oma-config.yaml.
+export interface CodexSettingsOptions {
+  /** When true, omit analytics/feedback opt-outs so Codex telemetry flows normally. */
+  telemetry?: boolean;
+}
+
 type JsonRecord = Record<string, unknown>;
 
 interface CodexMcpServer {
@@ -83,7 +91,21 @@ export function serializeCodexConfig(settings: CodexSettings): string {
   return stringifyToml(settings as Record<string, unknown>);
 }
 
-export function needsCodexSettingsUpdate(settings: unknown): boolean {
+function privacyKeysMatch(
+  table: Record<string, unknown> | undefined,
+  key: string,
+  telemetryEnabled: boolean,
+): boolean {
+  if (telemetryEnabled) {
+    return !(table && key in table);
+  }
+  return table?.[key] === false;
+}
+
+export function needsCodexSettingsUpdate(
+  settings: unknown,
+  options: CodexSettingsOptions = {},
+): boolean {
   if (!isRecord(settings)) return true;
   const typed = settings as CodexSettings;
   const mcp = typed.mcp_servers;
@@ -97,11 +119,39 @@ export function needsCodexSettingsUpdate(settings: unknown): boolean {
   for (const key of DEPRECATED_CODEX_FEATURES) {
     if (features && key in features) return true;
   }
+
+  const telemetryEnabled = options.telemetry === true;
+  const analytics = isRecord(typed.analytics) ? typed.analytics : undefined;
+  if (!privacyKeysMatch(analytics, "enabled", telemetryEnabled)) return true;
+  const feedback = isRecord(typed.feedback) ? typed.feedback : undefined;
+  if (!privacyKeysMatch(feedback, "enabled", telemetryEnabled)) return true;
+
   return false;
+}
+
+function applyPrivacyTable(
+  base: CodexSettings,
+  tableKey: "analytics" | "feedback",
+  optOut: boolean,
+): void {
+  const current = isRecord(base[tableKey])
+    ? { ...(base[tableKey] as Record<string, unknown>) }
+    : {};
+  if (optOut) {
+    current.enabled = false;
+  } else {
+    delete current.enabled;
+  }
+  if (Object.keys(current).length > 0) {
+    base[tableKey] = current;
+  } else if (tableKey in base) {
+    delete base[tableKey];
+  }
 }
 
 export function applyRecommendedCodexSettings(
   settings: unknown,
+  options: CodexSettingsOptions = {},
 ): CodexSettings {
   const base: CodexSettings = isRecord(settings)
     ? (settings as CodexSettings)
@@ -127,6 +177,10 @@ export function applyRecommendedCodexSettings(
     delete nextFeatures[key];
   }
   base.features = nextFeatures;
+
+  const optOut = options.telemetry !== true;
+  applyPrivacyTable(base, "analytics", optOut);
+  applyPrivacyTable(base, "feedback", optOut);
 
   return base;
 }

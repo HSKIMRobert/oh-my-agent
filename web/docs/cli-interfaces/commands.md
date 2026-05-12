@@ -71,7 +71,8 @@ oma doctor [--json] [--output <format>] [--profile]
 - `cleanupPeriodDays >= 180` (preserve conversation history)
 - `CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS >= 100000`
 - `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE >= 80`
-- `DISABLE_TELEMETRY`, `DISABLE_ERROR_REPORTING`, `CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY` set to `"1"`
+- `DISABLE_ERROR_REPORTING`, `CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY` set to `"1"`
+- `DISABLE_TELEMETRY` set to `"1"` unless `telemetry: true` in `.agents/oma-config.yaml` (opt-in to keep Claude Code Remote Control working)
 - Attribution strings for commits and PRs
 - User-level CLAUDE.md: checks `~/.claude/CLAUDE.md` contains the OMA integration block (`<!-- OMA:START`).
 

@@ -648,6 +648,7 @@ describe("migrateGeminiCliCompat (006)", () => {
         {
           general: { enableNotifications: true },
           experimental: { enableAgents: true },
+          privacy: { usageStatisticsEnabled: false },
           mcpServers: {
             serena: {
               command: "uvx",

@@ -26,6 +26,7 @@ describe("gemini settings", () => {
     const settings = {
       general: { enableNotifications: true },
       experimental: { enableAgents: true },
+      privacy: { usageStatisticsEnabled: false },
       mcpServers: {
         serena: {
           command: "uvx",
@@ -35,6 +36,64 @@ describe("gemini settings", () => {
     };
 
     expect(needsGeminiSettingsUpdate(settings)).toBe(false);
+  });
+
+  it("requires update when privacy.usageStatisticsEnabled is not set to false (default telemetry off)", () => {
+    const settings = {
+      general: { enableNotifications: true },
+      experimental: { enableAgents: true },
+      mcpServers: {
+        serena: {
+          command: "uvx",
+          args: ["serena"],
+        },
+      },
+    };
+    expect(needsGeminiSettingsUpdate(settings)).toBe(true);
+  });
+
+  it("accepts missing privacy.usageStatisticsEnabled when telemetry is opted in", () => {
+    const settings = {
+      general: { enableNotifications: true },
+      experimental: { enableAgents: true },
+      mcpServers: {
+        serena: {
+          command: "uvx",
+          args: ["serena"],
+        },
+      },
+    };
+    expect(needsGeminiSettingsUpdate(settings, { telemetry: true })).toBe(
+      false,
+    );
+  });
+
+  it("flags stale settings when telemetry is opted in but opt-out key still present", () => {
+    const settings = {
+      general: { enableNotifications: true },
+      experimental: { enableAgents: true },
+      privacy: { usageStatisticsEnabled: false },
+      mcpServers: {
+        serena: {
+          command: "uvx",
+          args: ["serena"],
+        },
+      },
+    };
+    expect(needsGeminiSettingsUpdate(settings, { telemetry: true })).toBe(true);
+  });
+
+  it("applies privacy.usageStatisticsEnabled=false by default", () => {
+    const result = applyRecommendedGeminiSettings({});
+    expect(result.privacy).toEqual({ usageStatisticsEnabled: false });
+  });
+
+  it("strips privacy.usageStatisticsEnabled when telemetry is opted in", () => {
+    const result = applyRecommendedGeminiSettings(
+      { privacy: { usageStatisticsEnabled: false } },
+      { telemetry: true },
+    );
+    expect(result.privacy).toBeUndefined();
   });
 
   it("applies recommended settings without dropping existing keys", () => {

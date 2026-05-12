@@ -7,6 +7,15 @@
  * by Gemini for subagent fan-out.
  */
 
+// `privacy.usageStatisticsEnabled` (default true) controls anonymized usage
+// stats sent to Alibaba. Gated on the `telemetry` flag from oma-config.yaml
+// (default off → flag set to false). Qwen Code shares this schema with
+// Gemini CLI (upstream fork).
+export interface QwenSettingsOptions {
+  /** When true, omit `privacy.usageStatisticsEnabled` opt-out. */
+  telemetry?: boolean;
+}
+
 export const RECOMMENDED_QWEN_MCP = {
   serena: {
     command: "uvx",
@@ -115,7 +124,10 @@ function normalizeQwenSettings(input: unknown): QwenSettings {
   return { ...input, mcpServers };
 }
 
-export function needsQwenSettingsUpdate(rawSettings: unknown): boolean {
+export function needsQwenSettingsUpdate(
+  rawSettings: unknown,
+  options: QwenSettingsOptions = {},
+): boolean {
   const normalized = normalizeQwenSettings(rawSettings);
   const sanitized = sanitizeQwenSettings(rawSettings);
   if (JSON.stringify(normalized) !== JSON.stringify(sanitized)) return true;
@@ -123,11 +135,19 @@ export function needsQwenSettingsUpdate(rawSettings: unknown): boolean {
   const serenaServer = sanitized.mcpServers?.serena;
   if (!hasQwenMcpTransport(serenaServer)) return true;
 
+  const privacy = isRecord(sanitized.privacy) ? sanitized.privacy : undefined;
+  if (options.telemetry === true) {
+    if (privacy && "usageStatisticsEnabled" in privacy) return true;
+  } else {
+    if (privacy?.usageStatisticsEnabled !== false) return true;
+  }
+
   return false;
 }
 
 export function applyRecommendedQwenSettings(
   rawSettings: unknown,
+  options: QwenSettingsOptions = {},
 ): QwenSettings {
   const qwenSettings = sanitizeQwenSettings(rawSettings);
   const currentSerena = qwenSettings.mcpServers?.serena;
@@ -142,6 +162,20 @@ export function applyRecommendedQwenSettings(
     ...(qwenSettings.mcpServers || {}),
     serena: nextSerena,
   };
+
+  const currentPrivacy = isRecord(qwenSettings.privacy)
+    ? { ...qwenSettings.privacy }
+    : {};
+  if (options.telemetry === true) {
+    delete currentPrivacy.usageStatisticsEnabled;
+  } else {
+    currentPrivacy.usageStatisticsEnabled = false;
+  }
+  if (Object.keys(currentPrivacy).length > 0) {
+    qwenSettings.privacy = currentPrivacy;
+  } else if ("privacy" in qwenSettings) {
+    delete qwenSettings.privacy;
+  }
 
   return qwenSettings;
 }

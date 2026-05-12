@@ -53,6 +53,7 @@ import {
 } from "../../platform/skills-installer.js";
 import type { CliTool, CliVendor } from "../../types/index.js";
 import { promptUninstallCompetitors } from "../../utils/competitors.js";
+import { isTelemetryEnabled } from "../../utils/config.js";
 import {
   applyRecommendedSettings,
   needsSettingsUpdate,
@@ -562,6 +563,7 @@ export async function install(options: InstallOptions = {}): Promise<void> {
       // Install vendor-specific adaptations (agents, routers, hooks, CLAUDE.md)
       spinner.start("Installing vendor adaptations...");
       installVendorAdaptations(repoDir, cwd, hookVendors);
+      const telemetryOptions = { telemetry: isTelemetryEnabled(cwd) };
       if (vendors.includes("claude")) {
         const claudeSettingsPath = join(cwd, ".claude", "settings.json");
         let claudeSettings: unknown = {};
@@ -574,8 +576,8 @@ export async function install(options: InstallOptions = {}): Promise<void> {
             claudeSettings = {};
           }
         }
-        if (needsSettingsUpdate(claudeSettings)) {
-          applyRecommendedSettings(claudeSettings);
+        if (needsSettingsUpdate(claudeSettings, telemetryOptions)) {
+          applyRecommendedSettings(claudeSettings, telemetryOptions);
           writeFileSync(
             claudeSettingsPath,
             `${JSON.stringify(claudeSettings, null, 2)}\n`,
@@ -594,8 +596,8 @@ export async function install(options: InstallOptions = {}): Promise<void> {
             geminiSettings = {};
           }
         }
-        if (needsGeminiSettingsUpdate(geminiSettings)) {
-          applyRecommendedGeminiSettings(geminiSettings);
+        if (needsGeminiSettingsUpdate(geminiSettings, telemetryOptions)) {
+          applyRecommendedGeminiSettings(geminiSettings, telemetryOptions);
           writeFileSync(
             geminiSettingsPath,
             `${JSON.stringify(geminiSettings, null, 2)}\n`,
@@ -612,8 +614,11 @@ export async function install(options: InstallOptions = {}): Promise<void> {
             qwenSettings = {};
           }
         }
-        if (needsQwenSettingsUpdate(qwenSettings)) {
-          const next = applyRecommendedQwenSettings(qwenSettings);
+        if (needsQwenSettingsUpdate(qwenSettings, telemetryOptions)) {
+          const next = applyRecommendedQwenSettings(
+            qwenSettings,
+            telemetryOptions,
+          );
           mkdirSync(dirname(qwenSettingsPath), { recursive: true });
           writeFileSync(qwenSettingsPath, `${JSON.stringify(next, null, 2)}\n`);
         }
@@ -624,8 +629,11 @@ export async function install(options: InstallOptions = {}): Promise<void> {
           ? readFileSync(codexConfigPath, "utf-8")
           : "";
         const codexSettings = parseCodexConfig(rawToml);
-        if (needsCodexSettingsUpdate(codexSettings)) {
-          const next = applyRecommendedCodexSettings(codexSettings);
+        if (needsCodexSettingsUpdate(codexSettings, telemetryOptions)) {
+          const next = applyRecommendedCodexSettings(
+            codexSettings,
+            telemetryOptions,
+          );
           mkdirSync(dirname(codexConfigPath), { recursive: true });
           writeFileSync(codexConfigPath, `${serializeCodexConfig(next)}\n`);
         }

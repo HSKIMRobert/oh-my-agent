@@ -140,6 +140,12 @@ export interface OmaConfig {
   date_format?: "ISO" | "US" | "EU";
   timezone?: string;
   auto_update_cli?: boolean;
+  /**
+   * Opt into Claude Code telemetry. When false (default), oh-my-agent sets
+   * `DISABLE_TELEMETRY=1` in `.claude/settings.json`. When true, the flag is
+   * omitted so features that gate on telemetry (e.g. Remote Control) work.
+   */
+  telemetry?: boolean;
   /** Per-agent overrides applied as shallow merge on top of preset */
   agents?: Partial<Record<AgentId, AgentSpec>>;
   /** Inline user-defined model slugs (formerly models.yaml) */
@@ -206,6 +212,7 @@ export const OmaConfigSchema = z
     date_format: z.enum(["ISO", "US", "EU"]).optional(),
     timezone: z.string().optional(),
     auto_update_cli: z.boolean().optional(),
+    telemetry: z.boolean().optional(),
     agents: AgentsMapSchema.optional(),
     models: z.record(z.string(), z.unknown()).optional(),
     custom_presets: z.record(z.string(), z.unknown()).optional(),

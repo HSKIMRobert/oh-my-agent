@@ -57,8 +57,65 @@ describe("codex settings", () => {
         },
       },
       features: { ...RECOMMENDED_CODEX_FEATURES },
+      analytics: { enabled: false },
+      feedback: { enabled: false },
     };
     expect(needsCodexSettingsUpdate(settings)).toBe(false);
+  });
+
+  it("requires update when analytics or feedback opt-outs are missing (default telemetry off)", () => {
+    const base = {
+      mcp_servers: {
+        serena: { command: "uvx", args: ["serena"] },
+      },
+      features: { ...RECOMMENDED_CODEX_FEATURES },
+    };
+    expect(needsCodexSettingsUpdate(base)).toBe(true);
+    expect(
+      needsCodexSettingsUpdate({
+        ...base,
+        analytics: { enabled: false },
+      }),
+    ).toBe(true);
+  });
+
+  it("accepts settings without analytics/feedback when telemetry is opted in", () => {
+    const settings = {
+      mcp_servers: {
+        serena: { command: "uvx", args: ["serena"] },
+      },
+      features: { ...RECOMMENDED_CODEX_FEATURES },
+    };
+    expect(needsCodexSettingsUpdate(settings, { telemetry: true })).toBe(false);
+  });
+
+  it("flags stale settings when telemetry is opted in but analytics opt-out still present", () => {
+    const settings = {
+      mcp_servers: {
+        serena: { command: "uvx", args: ["serena"] },
+      },
+      features: { ...RECOMMENDED_CODEX_FEATURES },
+      analytics: { enabled: false },
+    };
+    expect(needsCodexSettingsUpdate(settings, { telemetry: true })).toBe(true);
+  });
+
+  it("applies analytics.enabled=false and feedback.enabled=false by default", () => {
+    const result = applyRecommendedCodexSettings({});
+    expect(result.analytics).toEqual({ enabled: false });
+    expect(result.feedback).toEqual({ enabled: false });
+  });
+
+  it("strips analytics/feedback opt-out tables when telemetry is opted in", () => {
+    const result = applyRecommendedCodexSettings(
+      {
+        analytics: { enabled: false },
+        feedback: { enabled: false },
+      },
+      { telemetry: true },
+    );
+    expect(result.analytics).toBeUndefined();
+    expect(result.feedback).toBeUndefined();
   });
 
   it("applies recommended mcp_servers and features without dropping existing tables", () => {

@@ -7,7 +7,6 @@ export const RECOMMENDED_ENV = {
   cleanupPeriodDays: 180,
   CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS: 100000,
   CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: 80,
-  DISABLE_TELEMETRY: "1",
   DISABLE_ERROR_REPORTING: "1",
   CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY: "1",
   CLAUDE_CODE_DISABLE_AUTO_MEMORY: "1",
@@ -17,6 +16,15 @@ export const RECOMMENDED_ENV = {
 } as const;
 
 const DEPRECATED_ENV_KEYS = ["DISABLE_PROMPT_CACHING"] as const;
+
+// `DISABLE_TELEMETRY=1` breaks Claude Code Remote Control eligibility, so it is
+// gated on the `telemetry` flag from oma-config.yaml (default off → flag set).
+const TELEMETRY_ENV_KEY = "DISABLE_TELEMETRY" as const;
+
+export type ClaudeSettingsOptions = {
+  /** When true, omit `DISABLE_TELEMETRY` so Remote Control works. */
+  telemetry?: boolean;
+};
 
 export const RECOMMENDED_TOP_LEVEL = {
   skipDangerousModePermissionPrompt: true,
@@ -50,13 +58,22 @@ export const RECOMMENDED_ATTRIBUTION = {
 /**
  * Check whether existing settings already match the recommended values.
  */
-// biome-ignore lint/suspicious/noExplicitAny: settings.json schema is dynamic
-export function needsSettingsUpdate(claudeSettings: any): boolean {
+export function needsSettingsUpdate(
+  // biome-ignore lint/suspicious/noExplicitAny: settings.json schema is dynamic
+  claudeSettings: any,
+  options: ClaudeSettingsOptions = {},
+): boolean {
   const env = claudeSettings?.env;
   if (!env) return true;
 
   for (const key of DEPRECATED_ENV_KEYS) {
     if (key in env) return true;
+  }
+
+  if (options.telemetry === true) {
+    if (TELEMETRY_ENV_KEY in env) return true;
+  } else {
+    if (env[TELEMETRY_ENV_KEY] !== "1") return true;
   }
 
   for (const [key, expected] of Object.entries(RECOMMENDED_ENV)) {
@@ -86,14 +103,23 @@ export function needsSettingsUpdate(claudeSettings: any): boolean {
 /**
  * Merge recommended settings into existing settings object (mutates).
  */
-// biome-ignore lint/suspicious/noExplicitAny: settings.json schema is dynamic
-export function applyRecommendedSettings(claudeSettings: any): any {
+export function applyRecommendedSettings(
+  // biome-ignore lint/suspicious/noExplicitAny: settings.json schema is dynamic
+  claudeSettings: any,
+  options: ClaudeSettingsOptions = {},
+  // biome-ignore lint/suspicious/noExplicitAny: settings.json schema is dynamic
+): any {
   const env = {
     ...(claudeSettings.env || {}),
     ...RECOMMENDED_ENV,
   };
   for (const key of DEPRECATED_ENV_KEYS) {
     delete env[key];
+  }
+  if (options.telemetry === true) {
+    delete env[TELEMETRY_ENV_KEY];
+  } else {
+    env[TELEMETRY_ENV_KEY] = "1";
   }
 
   claudeSettings.env = env;

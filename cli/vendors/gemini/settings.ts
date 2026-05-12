@@ -17,6 +17,14 @@ export const RECOMMENDED_GEMINI_MCP = {
   },
 } as const;
 
+// `privacy.usageStatisticsEnabled` (default true) controls anonymized usage
+// stats sent to Google. Gated on the `telemetry` flag from oma-config.yaml
+// (default off → flag set to false).
+export interface GeminiSettingsOptions {
+  /** When true, omit `privacy.usageStatisticsEnabled` opt-out so usage stats flow normally. */
+  telemetry?: boolean;
+}
+
 type JsonRecord = Record<string, unknown>;
 
 interface GeminiMcpServer {
@@ -144,7 +152,10 @@ function normalizeGeminiSettings(input: unknown): GeminiSettings {
   };
 }
 
-export function needsGeminiSettingsUpdate(rawSettings: unknown): boolean {
+export function needsGeminiSettingsUpdate(
+  rawSettings: unknown,
+  options: GeminiSettingsOptions = {},
+): boolean {
   const normalizedSettings = normalizeGeminiSettings(rawSettings);
   const geminiSettings = sanitizeGeminiSettings(rawSettings);
 
@@ -171,11 +182,21 @@ export function needsGeminiSettingsUpdate(rawSettings: unknown): boolean {
   const serenaServer = geminiSettings.mcpServers?.serena;
   if (!hasGeminiMcpTransport(serenaServer)) return true;
 
+  const privacy = isRecord(geminiSettings.privacy)
+    ? geminiSettings.privacy
+    : undefined;
+  if (options.telemetry === true) {
+    if (privacy && "usageStatisticsEnabled" in privacy) return true;
+  } else {
+    if (privacy?.usageStatisticsEnabled !== false) return true;
+  }
+
   return false;
 }
 
 export function applyRecommendedGeminiSettings(
   rawSettings: unknown,
+  options: GeminiSettingsOptions = {},
 ): GeminiSettings {
   const geminiSettings = sanitizeGeminiSettings(rawSettings);
   const currentSerena = geminiSettings.mcpServers?.serena;
@@ -200,6 +221,20 @@ export function applyRecommendedGeminiSettings(
     ...(geminiSettings.mcpServers || {}),
     serena: nextSerena,
   };
+
+  const currentPrivacy = isRecord(geminiSettings.privacy)
+    ? { ...geminiSettings.privacy }
+    : {};
+  if (options.telemetry === true) {
+    delete currentPrivacy.usageStatisticsEnabled;
+  } else {
+    currentPrivacy.usageStatisticsEnabled = false;
+  }
+  if (Object.keys(currentPrivacy).length > 0) {
+    geminiSettings.privacy = currentPrivacy;
+  } else if ("privacy" in geminiSettings) {
+    delete geminiSettings.privacy;
+  }
 
   return geminiSettings;
 }

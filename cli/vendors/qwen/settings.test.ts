@@ -14,6 +14,7 @@ describe("qwen settings", () => {
 
   it("accepts existing serena stdio transport", () => {
     const settings = {
+      privacy: { usageStatisticsEnabled: false },
       mcpServers: {
         serena: {
           command: "uvx",
@@ -26,11 +27,43 @@ describe("qwen settings", () => {
 
   it("accepts existing serena HTTP transport", () => {
     const settings = {
+      privacy: { usageStatisticsEnabled: false },
       mcpServers: {
         serena: { url: "http://localhost:12341/mcp" },
       },
     };
     expect(needsQwenSettingsUpdate(settings)).toBe(false);
+  });
+
+  it("requires update when privacy.usageStatisticsEnabled is not set to false (default telemetry off)", () => {
+    const settings = {
+      mcpServers: {
+        serena: { command: "uvx", args: ["serena"] },
+      },
+    };
+    expect(needsQwenSettingsUpdate(settings)).toBe(true);
+  });
+
+  it("accepts missing privacy.usageStatisticsEnabled when telemetry is opted in", () => {
+    const settings = {
+      mcpServers: {
+        serena: { command: "uvx", args: ["serena"] },
+      },
+    };
+    expect(needsQwenSettingsUpdate(settings, { telemetry: true })).toBe(false);
+  });
+
+  it("applies privacy.usageStatisticsEnabled=false by default", () => {
+    const result = applyRecommendedQwenSettings({});
+    expect(result.privacy).toEqual({ usageStatisticsEnabled: false });
+  });
+
+  it("strips privacy.usageStatisticsEnabled when telemetry is opted in", () => {
+    const result = applyRecommendedQwenSettings(
+      { privacy: { usageStatisticsEnabled: false } },
+      { telemetry: true },
+    );
+    expect(result.privacy).toBeUndefined();
   });
 
   it("applies recommended settings without dropping existing keys", () => {
