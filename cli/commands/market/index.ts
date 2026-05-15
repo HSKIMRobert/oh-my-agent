@@ -19,6 +19,34 @@ export function registerMarketCommand(program: Command): void {
       process.exit(code);
     });
 
+  market
+    .command("discover-competitors <topic>")
+    .description(
+      "Auto-discover peer/competitor entities for a topic via DDG SERP entity-extract",
+    )
+    .option("--locale <lang>", "en|ko", "en")
+    .option(
+      "--limit <n>",
+      "max candidate entities to return (1..25, default 20)",
+    )
+    .option("--timeout <sec>", "DDG fan-out timeout in seconds")
+    .action(
+      async (
+        topic: string,
+        opts: { locale?: string; limit?: string; timeout?: string },
+      ) => {
+        const { runDiscoverCompetitors } = await import(
+          "./discover-competitors.js"
+        );
+        const argv: string[] = [topic];
+        if (opts.locale) argv.push("--locale", opts.locale);
+        if (opts.limit) argv.push("--limit", opts.limit);
+        if (opts.timeout) argv.push("--timeout", opts.timeout);
+        const code = await runDiscoverCompetitors(argv);
+        process.exit(code);
+      },
+    );
+
   const _stub = (name: string, taskId: string) =>
     market
       .command(name)
