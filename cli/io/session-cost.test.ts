@@ -23,20 +23,26 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mockFs = vi.hoisted(() => {
   const store: Record<string, string> = {};
+  // Normalize Windows backslashes so production code using path.join (which
+  // emits "\\" on win32) can still look up keys seeded with POSIX "/".
+  const norm = (p: string) => p.replace(/\\/g, "/");
 
   return {
     store,
-    existsSync: vi.fn((p: string) => p in store),
+    existsSync: vi.fn((p: string) => norm(p) in store),
     mkdirSync: vi.fn(),
     readFileSync: vi.fn((p: string, _enc: string) => {
-      if (p in store) return store[p];
+      const np = norm(p);
+      if (np in store) return store[np];
       throw Object.assign(new Error(`ENOENT: ${p}`), { code: "ENOENT" });
     }),
     appendFileSync: vi.fn((p: string, data: string, _enc: string) => {
-      store[p] = (store[p] ?? "") + data;
+      const np = norm(p);
+      store[np] = (store[np] ?? "") + data;
     }),
     readdirSync: vi.fn((p: string) => {
-      const prefix = p.endsWith("/") ? p : `${p}/`;
+      const np = norm(p);
+      const prefix = np.endsWith("/") ? np : `${np}/`;
       const entries = new Set<string>();
       for (const key of Object.keys(store)) {
         if (!key.startsWith(prefix)) continue;
@@ -48,6 +54,8 @@ const mockFs = vi.hoisted(() => {
     }),
   };
 });
+
+const normPath = (p: string) => p.replace(/\\/g, "/");
 
 vi.mock("node:fs", async (importOriginal) => {
   const actual = await importOriginal<typeof import("node:fs")>();
@@ -111,18 +119,21 @@ beforeEach(() => {
   }
   vi.clearAllMocks();
   // Re-attach the store-backed implementations after clearAllMocks
-  mockFs.existsSync.mockImplementation((p: string) => p in mockFs.store);
+  mockFs.existsSync.mockImplementation((p: string) => normPath(p) in mockFs.store);
   mockFs.readFileSync.mockImplementation((p: string, _enc: string) => {
-    if (p in mockFs.store) return mockFs.store[p];
+    const np = normPath(p);
+    if (np in mockFs.store) return mockFs.store[np];
     throw Object.assign(new Error(`ENOENT: ${p}`), { code: "ENOENT" });
   });
   mockFs.appendFileSync.mockImplementation(
     (p: string, data: string, _enc: string) => {
-      mockFs.store[p] = (mockFs.store[p] ?? "") + data;
+      const np = normPath(p);
+      mockFs.store[np] = (mockFs.store[np] ?? "") + data;
     },
   );
   mockFs.readdirSync.mockImplementation((p: string) => {
-    const prefix = p.endsWith("/") ? p : `${p}/`;
+    const np = normPath(p);
+    const prefix = np.endsWith("/") ? np : `${np}/`;
     const entries = new Set<string>();
     for (const key of Object.keys(mockFs.store)) {
       if (!key.startsWith(prefix)) continue;
