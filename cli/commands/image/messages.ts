@@ -1,6 +1,7 @@
 export interface Messages {
   promptRequired: string;
   countOutOfRange: string;
+  invalidSize: (reason: string) => string;
   unknownVendor: (name: string) => string;
   authFailureHeader: string;
   runDoctor: string;
@@ -17,6 +18,7 @@ export interface Messages {
 const en: Messages = {
   promptRequired: "prompt is required",
   countOutOfRange: "count must be between 1 and 5",
+  invalidSize: (reason) => `invalid --size: ${reason}`,
   unknownVendor: (name) => `unknown vendor: ${name}`,
   authFailureHeader: "[oma image] No authenticated vendors available.",
   runDoctor: "Run: oma image doctor",
@@ -36,6 +38,7 @@ const en: Messages = {
 const ko: Messages = {
   promptRequired: "프롬프트가 비어 있습니다",
   countOutOfRange: "count는 1과 5 사이여야 합니다",
+  invalidSize: (reason) => `잘못된 --size: ${reason}`,
   unknownVendor: (name) => `알 수 없는 vendor: ${name}`,
   authFailureHeader: "[oma image] 인증된 vendor가 없습니다.",
   runDoctor: "실행: oma image doctor",

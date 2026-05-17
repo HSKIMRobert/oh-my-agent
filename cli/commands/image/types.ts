@@ -1,4 +1,4 @@
-export type Size = "1024x1024" | "1024x1536" | "1536x1024" | "auto";
+export type Size = `${number}x${number}` | "auto";
 export type Quality = "low" | "medium" | "high" | "auto";
 
 export interface GenerateInput {

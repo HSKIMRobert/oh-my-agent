@@ -37,7 +37,7 @@ export function registerImageCommand(program: Command): void {
     )
     .option(
       "--size <size>",
-      "Image size: 1024x1024 | 1024x1536 | 1536x1024 | auto",
+      "Image size: WxH (each multiple of 16, between 16 and 3840, aspect 1:3..3:1) or auto. Examples: 512x512, 1024x1024, 1536x1024",
     )
     .option("--quality <level>", "Quality: low | medium | high | auto")
     .option("-n, --count <n>", "Number of images (1..5)")

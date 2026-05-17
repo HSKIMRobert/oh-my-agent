@@ -11,6 +11,7 @@ import {
   validateReferenceImages,
 } from "./reference-guard.js";
 import { defaultRegistry } from "./registry.js";
+import { validateSize } from "./size-guard.js";
 import {
   exitForError,
   type GenerateInput,
@@ -37,7 +38,13 @@ export async function runGenerate({
   }
 
   const vendorFlag = (opts.vendor as string) ?? config.defaultVendor;
-  const size = (opts.size as string) ?? config.defaultSize;
+  const sizeInput = (opts.size as string) ?? config.defaultSize;
+  const sizeCheck = validateSize(sizeInput);
+  if (!sizeCheck.ok) {
+    console.error(color.red(msgs.invalidSize(sizeCheck.reason)));
+    return 4;
+  }
+  const size = sizeCheck.size;
   const quality = (opts.quality as string) ?? config.defaultQuality;
   const count = opts.count
     ? Number.parseInt(opts.count as string, 10)
@@ -261,7 +268,7 @@ export async function runGenerate({
         provider: p,
         input: {
           prompt,
-          size: size as GenerateInput["size"],
+          size,
           quality: quality as GenerateInput["quality"],
           n: count,
           model: modelByVendor[p.name],
