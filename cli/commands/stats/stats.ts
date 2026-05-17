@@ -30,12 +30,11 @@ function aggregateCost(cwd: string): CostSummary {
     totalTokens += r.tokens;
     const usd = estimateUsd(r.tokens, r.vendor);
     estimatedUsd += usd;
-    if (!byVendor[r.vendor]) {
-      byVendor[r.vendor] = { tokens: 0, spawns: 0, usd: 0 };
-    }
-    byVendor[r.vendor].tokens += r.tokens;
-    byVendor[r.vendor].spawns += 1;
-    byVendor[r.vendor].usd += usd;
+    const entry = byVendor[r.vendor] ?? { tokens: 0, spawns: 0, usd: 0 };
+    entry.tokens += r.tokens;
+    entry.spawns += 1;
+    entry.usd += usd;
+    byVendor[r.vendor] = entry;
   }
 
   return {
