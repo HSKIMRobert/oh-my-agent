@@ -40,12 +40,39 @@ const PRESETS = {
     "oma-design",
     "oma-frontend",
     "oma-backend",
+    "oma-mobile",
     "oma-db",
     "oma-pm",
     "oma-qa",
     "oma-debug",
     "oma-scm",
     "oma-tf-infra",
+    "oma-dev-workflow",
+  ],
+  "fullstack-web": [
+    "oma-architecture",
+    "oma-brainstorm",
+    "oma-design",
+    "oma-frontend",
+    "oma-backend",
+    "oma-db",
+    "oma-pm",
+    "oma-qa",
+    "oma-debug",
+    "oma-scm",
+    "oma-dev-workflow",
+  ],
+  "fullstack-mobile": [
+    "oma-architecture",
+    "oma-brainstorm",
+    "oma-design",
+    "oma-mobile",
+    "oma-backend",
+    "oma-db",
+    "oma-pm",
+    "oma-qa",
+    "oma-debug",
+    "oma-scm",
     "oma-dev-workflow",
   ],
   frontend: [
@@ -83,9 +110,28 @@ const PRESETS = {
     "oma-brainstorm",
     "oma-tf-infra",
     "oma-dev-workflow",
+    "oma-observability",
     "oma-pm",
     "oma-qa",
     "oma-debug",
+    "oma-scm",
+  ],
+  research: [
+    "oma-scholar",
+    "oma-market",
+    "oma-pdf",
+    "oma-hwp",
+    "oma-academic-writer",
+    "oma-search",
+    "oma-translator",
+    "oma-scm",
+  ],
+  content: [
+    "oma-design",
+    "oma-image",
+    "oma-voice",
+    "oma-academic-writer",
+    "oma-translator",
     "oma-scm",
   ],
 };
@@ -219,7 +265,8 @@ function formatRegistry(registry) {
 function formatPresets() {
   const lines = ["export const PRESETS: Record<string, string[]> = {"];
   for (const [key, names] of Object.entries(PRESETS)) {
-    lines.push(`  ${key}: [`);
+    const keyOut = /^[A-Za-z_$][\w$]*$/.test(key) ? key : `"${key}"`;
+    lines.push(`  ${keyOut}: [`);
     for (const n of names) lines.push(`    "${n}",`);
     lines.push("  ],");
   }

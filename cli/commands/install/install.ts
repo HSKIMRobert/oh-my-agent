@@ -343,7 +343,17 @@ export async function install(options: InstallOptions = {}): Promise<void> {
           {
             value: "fullstack",
             label: "Fullstack",
-            hint: "Frontend + Backend + PM + QA",
+            hint: "Web + Mobile + Infra (kitchen sink)",
+          },
+          {
+            value: "fullstack-web",
+            label: "Fullstack Web",
+            hint: "Frontend + Backend + DB (no mobile/infra)",
+          },
+          {
+            value: "fullstack-mobile",
+            label: "Fullstack Mobile",
+            hint: "Mobile + Backend + DB",
           },
           { value: "frontend", label: "Frontend", hint: "React/Next.js" },
           {
@@ -355,7 +365,17 @@ export async function install(options: InstallOptions = {}): Promise<void> {
           {
             value: "devops",
             label: "DevOps",
-            hint: "Terraform + CI/CD + Workflows",
+            hint: "Terraform + CI/CD + Observability",
+          },
+          {
+            value: "research",
+            label: "Research",
+            hint: "Scholar + Market + PDF/HWP + Writer",
+          },
+          {
+            value: "content",
+            label: "Content",
+            hint: "Image + Voice + Design + Writer",
           },
           { value: "custom", label: "Custom", hint: "Choose skills" },
         ],
