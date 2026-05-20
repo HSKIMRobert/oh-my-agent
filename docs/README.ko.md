@@ -43,8 +43,6 @@ apm install first-fluke/oh-my-agent
 apm install first-fluke/oh-my-agent/.agents/skills/oma-frontend
 ```
 
-APM은 `.claude-plugin/plugin.json`의 `skills: .agents/skills/` 포인터를 읽으므로, `.agents/` SSOT가 유일한 소스입니다(빌드 단계나 미러 없음).
-
 APM은 스킬만 제공합니다. 워크플로우, 규칙, `oma-config.yaml`, 키워드 감지 훅, `oma agent:spawn` CLI는 `bunx oh-my-agent@latest`를 쓰세요. 드리프트를 피하려면 프로젝트당 한 가지 배포 방식만 고르는 게 좋습니다.
 
 </details>
@@ -225,7 +223,7 @@ oma search fetch <url>      # 자동 단계 상승 전략으로 메커니컬 검
   - `ralph` 워크플로우 — 독립 JUDGE가 매 iteration마다 모든 criterion을 재검증해 silent regression을 잡습니다; 30초 초과 테스트 캐싱
   - Exploration Loop — 2회 retry 후 `orchestrate`가 hypothesis 변형을 병렬 spawn하고 최고 점수만 남깁니다
   - 모노레포 자동 라우팅 — `detectWorkspace`가 pnpm / nx / turbo / lerna를 읽어 각 에이전트를 자기 workspace로 보냅니다
-- **멀티 벤더**: 에이전트 유형별로 Gemini, Claude, Codex, Qwen을 섞어 쓸 수 있습니다
+- **멀티 벤더**: 에이전트 유형별로 Claude, Codex, Cursor, Qwen을 섞어 쓸 수 있습니다
 - **가시성**: 터미널과 웹 대시보드로 실시간 모니터링이 가능합니다
 
 ## 아키텍처

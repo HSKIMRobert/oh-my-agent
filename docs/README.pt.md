@@ -43,8 +43,6 @@ apm install first-fluke/oh-my-agent
 apm install first-fluke/oh-my-agent/.agents/skills/oma-frontend
 ```
 
-O APM le o ponteiro `skills: .agents/skills/` do `.claude-plugin/plugin.json`, entao o SSOT em `.agents/` e a unica fonte, sem etapa de build e sem mirror.
-
 O APM so entrega os skills. Para workflows, regras, `oma-config.yaml`, hooks de deteccao de palavras-chave e a CLI `oma agent:spawn`, use `bunx oh-my-agent@latest`. Escolha so um modo de distribuicao por projeto, senao acaba dando ruim.
 
 </details>
@@ -225,7 +223,7 @@ A seleção de modelo segue duas camadas:
   - workflow `ralph` — JUDGE independente reverifica cada criterion a cada iteracao para detectar regressoes silenciosas; cache para tests >30s
   - Exploration Loop — apos 2 retries, `orchestrate` faz spawn paralelo de variantes de hipotese e mantem a de maior pontuacao
   - Auto-roteamento de monorepo — `detectWorkspace` le pnpm / nx / turbo / lerna e roteia cada agente para seu workspace
-- **Multi-vendor**: misture Gemini, Claude, Codex e Qwen por tipo de agente
+- **Multi-vendor**: misture Claude, Codex, Cursor e Qwen por tipo de agente
 - **Observavel**: dashboards no terminal e na web para monitoramento em tempo real
 
 ## Arquitetura

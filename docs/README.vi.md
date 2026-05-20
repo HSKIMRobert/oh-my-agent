@@ -43,8 +43,6 @@ apm install first-fluke/oh-my-agent
 apm install first-fluke/oh-my-agent/.agents/skills/oma-frontend
 ```
 
-APM đọc pointer `skills: .agents/skills/` trong `.claude-plugin/plugin.json`, nên `.agents/` SSOT là nguồn duy nhất, không cần bước build hay mirror.
-
 APM chỉ phân phối skill. Còn workflow, rule, `oma-config.yaml`, hook phát hiện từ khóa và CLI `oma agent:spawn` thì dùng `bunx oh-my-agent@latest`. Mỗi dự án chỉ chọn một cách phân phối thôi, không thì lệch nhau.
 
 </details>
@@ -225,7 +223,7 @@ Việc chọn model đi theo hai lớp:
   - workflow `ralph` — JUDGE độc lập tái xác minh mọi criterion mỗi iteration để bắt regression im lặng; cache cho test >30s
   - Exploration Loop — sau 2 lần retry, `orchestrate` spawn các biến thể hypothesis song song và giữ kết quả điểm cao nhất
   - Auto-routing monorepo — `detectWorkspace` đọc pnpm / nx / turbo / lerna và route mỗi agent đến workspace của nó
-- **Đa nhà cung cấp**: kết hợp Gemini, Claude, Codex và Qwen theo loại agent
+- **Đa nhà cung cấp**: kết hợp Claude, Codex, Cursor và Qwen theo loại agent
 - **Có thể quan sát**: dashboard terminal và web để giám sát thời gian thực
 
 ## Kiến trúc
