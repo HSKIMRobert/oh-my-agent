@@ -13,17 +13,17 @@ Hỗ trợ tất cả các AI IDE chính: Antigravity, Claude Code, Cursor, Gemi
 ## Bắt đầu nhanh
 
 ```bash
-# macOS / Linux — tự động cài bun & uv nếu chưa có
+# macOS / Linux — tự động cài bun, uv & serena nếu chưa có
 curl -fsSL https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.sh | bash
 ```
 
 ```powershell
-# Windows (PowerShell) — tự động cài bun & uv nếu chưa có
+# Windows (PowerShell) — tự động cài bun, uv & serena nếu chưa có
 irm https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.ps1 | iex
 ```
 
 ```bash
-# Hoặc chạy trực tiếp (mọi OS, cần bun + uv)
+# Hoặc chạy trực tiếp (mọi OS, cần bun + uv + serena)
 bunx oh-my-agent@latest
 ```
 

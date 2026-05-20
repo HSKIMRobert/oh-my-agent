@@ -13,17 +13,17 @@ Dziala ze wszystkimi glownymi AI IDE: Antigravity, Claude Code, Cursor, Gemini C
 ## Szybki start
 
 ```bash
-# macOS / Linux — automatycznie zainstaluje bun & uv, jesli brakuje
+# macOS / Linux — automatycznie zainstaluje bun, uv & serena, jesli brakuje
 curl -fsSL https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.sh | bash
 ```
 
 ```powershell
-# Windows (PowerShell) — automatycznie zainstaluje bun & uv, jesli brakuje
+# Windows (PowerShell) — automatycznie zainstaluje bun, uv & serena, jesli brakuje
 irm https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.ps1 | iex
 ```
 
 ```bash
-# Lub recznie (dowolny system, wymaga bun + uv)
+# Lub recznie (dowolny system, wymaga bun + uv + serena)
 bunx oh-my-agent@latest
 ```
 

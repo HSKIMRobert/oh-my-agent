@@ -13,17 +13,17 @@
 ## Quick Start
 
 ```bash
-# macOS / Linux — ติดตั้ง bun และ uv ให้อัตโนมัติหากยังไม่ได้ install ไว้
+# macOS / Linux — ติดตั้ง bun, uv และ serena ให้อัตโนมัติหากยังไม่ได้ install ไว้
 curl -fsSL https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.sh | bash
 ```
 
 ```powershell
-# Windows (PowerShell) — ติดตั้ง bun และ uv ให้อัตโนมัติหากยังไม่ได้ install ไว้
+# Windows (PowerShell) — ติดตั้ง bun, uv และ serena ให้อัตโนมัติหากยังไม่ได้ install ไว้
 irm https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.ps1 | iex
 ```
 
 ```bash
-# หรือรันด้วยตนเอง (ทุก OS, ต้องการ bun + uv)
+# หรือรันด้วยตนเอง (ทุก OS, ต้องการ bun + uv + serena)
 bunx oh-my-agent@latest
 ```
 

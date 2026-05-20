@@ -17,13 +17,17 @@ description: Complete installation guide for oh-my-agent, covering three install
 ## Method 1: One-Liner Install (Recommended)
 
 ```bash
+# macOS / Linux
 curl -fsSL https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.sh | bash
 ```
 
-This bootstrap script supports macOS and Linux only. On Windows, install `bun`, `uv`, and serena manually (`uv tool install -p 3.13 serena-agent@latest --prerelease=allow`), then run `bunx oh-my-agent@latest`.
+```powershell
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.ps1 | iex
+```
 
-This script:
-1. Detects your platform (macOS, Linux)
+Both bootstrap scripts behave the same way:
+1. Detects your platform (macOS, Linux, or Windows)
 2. Checks for bun, uv, and serena — installing them if missing
 3. Runs the interactive installer with preset selection
 4. Creates `.agents/` with your selected skills

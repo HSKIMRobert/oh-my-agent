@@ -16,12 +16,18 @@ description: Guide d'installation complet d'oh-my-agent — trois méthodes d'in
 ## Méthode 1 : Installation en une commande (recommandée)
 
 ```bash
+# macOS / Linux
 curl -fsSL https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.sh | bash
 ```
 
-Ce script :
-1. Détecte votre plateforme (macOS, Linux)
-2. Vérifie la présence de bun et uv, les installe si absents
+```powershell
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.ps1 | iex
+```
+
+Les deux scripts bootstrap se comportent de la même façon :
+1. Détecte votre plateforme (macOS, Linux ou Windows)
+2. Vérifie la présence de bun, uv et serena, les installe si absents
 3. Lance l'installateur interactif avec sélection de preset
 4. Crée `.agents/` avec les compétences sélectionnées
 5. Configure la couche d'intégration `.claude/` (hooks, symlinks, paramètres)

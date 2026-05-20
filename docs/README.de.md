@@ -13,17 +13,17 @@ Funktioniert mit allen großen KI-IDEs: Antigravity, Claude Code, Cursor, Gemini
 ## Schnellstart
 
 ```bash
-# macOS / Linux — installiert bun & uv automatisch, falls nicht vorhanden
+# macOS / Linux — installiert bun, uv & serena automatisch, falls nicht vorhanden
 curl -fsSL https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.sh | bash
 ```
 
 ```powershell
-# Windows (PowerShell) — installiert bun & uv automatisch, falls nicht vorhanden
+# Windows (PowerShell) — installiert bun, uv & serena automatisch, falls nicht vorhanden
 irm https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.ps1 | iex
 ```
 
 ```bash
-# Oder manuell (beliebiges OS, benötigt bun + uv)
+# Oder manuell (beliebiges OS, benötigt bun + uv + serena)
 bunx oh-my-agent@latest
 ```
 

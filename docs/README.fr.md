@@ -13,17 +13,17 @@ Compatible avec tous les principaux IDEs IA : Antigravity, Claude Code, Cursor, 
 ## Démarrage Rapide
 
 ```bash
-# macOS / Linux — installe bun & uv automatiquement si absents
+# macOS / Linux — installe bun, uv & serena automatiquement si absents
 curl -fsSL https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.sh | bash
 ```
 
 ```powershell
-# Windows (PowerShell) — installe bun & uv automatiquement si absents
+# Windows (PowerShell) — installe bun, uv & serena automatiquement si absents
 irm https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.ps1 | iex
 ```
 
 ```bash
-# Ou manuellement (n'importe quel OS, nécessite bun + uv)
+# Ou manuellement (n'importe quel OS, nécessite bun + uv + serena)
 bunx oh-my-agent@latest
 ```
 

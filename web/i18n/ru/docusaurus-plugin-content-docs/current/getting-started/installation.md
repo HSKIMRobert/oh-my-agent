@@ -16,12 +16,18 @@ description: Полное руководство по установке oh-my-a
 ## Способ 1: Установка одной командой (рекомендуется)
 
 ```bash
+# macOS / Linux
 curl -fsSL https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.sh | bash
 ```
 
-Этот скрипт:
-1. Определяет вашу платформу (macOS, Linux)
-2. Проверяет наличие bun и uv, устанавливает их при отсутствии
+```powershell
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.ps1 | iex
+```
+
+Оба bootstrap-скрипта работают одинаково:
+1. Определяет вашу платформу (macOS, Linux или Windows)
+2. Проверяет наличие bun, uv и serena, устанавливает их при отсутствии
 3. Запускает интерактивный установщик с выбором пресета
 4. Создаёт `.agents/` с выбранными навыками
 5. Настраивает слой интеграции `.claude/` (хуки, символические ссылки, настройки)

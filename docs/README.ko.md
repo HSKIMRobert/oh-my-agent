@@ -13,17 +13,17 @@ AI 하나에 모든 걸 맡기면 중간에 헤매기 쉽지만, oh-my-agent는 
 ## 빠른 시작
 
 ```bash
-# macOS / Linux — bun & uv가 없으면 자동으로 설치됩니다
+# macOS / Linux — bun, uv, serena가 없으면 자동으로 설치됩니다
 curl -fsSL https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.sh | bash
 ```
 
 ```powershell
-# Windows (PowerShell) — bun & uv가 없으면 자동으로 설치됩니다
+# Windows (PowerShell) — bun, uv, serena가 없으면 자동으로 설치됩니다
 irm https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.ps1 | iex
 ```
 
 ```bash
-# 또는 직접 실행 (모든 OS, bun + uv 필요)
+# 또는 직접 실행 (모든 OS, bun + uv + serena 필요)
 bunx oh-my-agent@latest
 ```
 

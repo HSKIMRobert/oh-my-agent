@@ -16,14 +16,18 @@ description: Hướng dẫn cài đặt đầy đủ cho oh-my-agent — ba phư
 ## Phương pháp 1: Cài đặt một dòng lệnh (Khuyến nghị)
 
 ```bash
+# macOS / Linux
 curl -fsSL https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.sh | bash
 ```
 
-Script bootstrap này chỉ hỗ trợ macOS và Linux. Trên Windows, hãy cài `bun` và `uv` thủ công, sau đó chạy `bunx oh-my-agent@latest`.
+```powershell
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/first-fluke/oh-my-agent/main/cli/install.ps1 | iex
+```
 
-Script này:
-1. Phát hiện nền tảng của bạn (macOS, Linux)
-2. Kiểm tra bun và uv, cài đặt nếu thiếu
+Cả hai script bootstrap hoạt động giống nhau:
+1. Phát hiện nền tảng của bạn (macOS, Linux hoặc Windows)
+2. Kiểm tra bun, uv và serena, cài đặt nếu thiếu
 3. Chạy trình cài đặt tương tác với lựa chọn preset
 4. Tạo `.agents/` với các skill bạn đã chọn
 5. Thiết lập tầng tích hợp `.claude/` (hook, symlink, setting)
