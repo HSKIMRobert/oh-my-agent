@@ -82,6 +82,22 @@ if (Test-Command uv) {
   Write-Ok "uv installed"
 }
 
+# ── serena (Serena MCP binary, installed via uv tool) ───────────────
+if (Test-Command serena) {
+  Write-Ok "serena found"
+} else {
+  Write-Info "Installing serena-agent via uv tool..."
+  & uv tool install -p 3.13 serena-agent@latest --prerelease=allow
+  if ($LASTEXITCODE -ne 0) {
+    Write-Fail "serena-agent install failed. Please install manually: uv tool install -p 3.13 serena-agent@latest --prerelease=allow"
+  }
+  Add-ToPath "$env:USERPROFILE\.local\bin"
+  if (-not (Test-Command serena)) {
+    Write-Fail "serena binary not on PATH after install. Run: uv tool update-shell"
+  }
+  Write-Ok "serena installed"
+}
+
 Write-Host ""
 Write-Ok "All dependencies ready"
 Write-Host ""

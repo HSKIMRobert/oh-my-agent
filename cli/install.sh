@@ -164,6 +164,13 @@ main() {
   ok "All dependencies ready"
   echo ""
 
+  # CI smoke tests set OMA_INSTALL_NO_RUN=1 to verify the bootstrap path
+  # without launching the interactive setup.
+  if [[ "${OMA_INSTALL_NO_RUN:-0}" == "1" ]]; then
+    info "OMA_INSTALL_NO_RUN=1 set — skipping bunx oh-my-agent@latest"
+    return 0
+  fi
+
   # ── Run oh-my-agent interactive installer ──
   info "Launching ${BOLD}oh-my-agent${RESET} setup..."
   echo ""
