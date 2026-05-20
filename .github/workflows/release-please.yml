@@ -116,5 +116,10 @@ jobs:
       - name: Publish primary NPM package
         run: cd cli && bun publish --access public
         env:
+          # actions/setup-node writes an .npmrc whose _authToken placeholder is
+          # ${NODE_AUTH_TOKEN}. Bun publish also reads NPM_CONFIG_TOKEN directly.
+          # Set both so neither code path silently authenticates as anonymous,
+          # which surfaces as a 404 from the registry on PUT.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
 
