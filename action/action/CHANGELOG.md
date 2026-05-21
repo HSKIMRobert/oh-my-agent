@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.3](https://github.com/HSKIMRobert/oh-my-agent/compare/action-v1.1.2...action-v1.1.3) (2026-05-21)
+
+
+### Bug Fixes
+
+* **image:** distribute auto-forward reference mandate in skill bundle ([d2e5ff9](https://github.com/HSKIMRobert/oh-my-agent/commit/d2e5ff9fefcd045c9bc34e497932151e02688ccf))
+* **image:** distribute auto-forward reference mandate in skill bundle ([b9b7287](https://github.com/HSKIMRobert/oh-my-agent/commit/b9b72874a9bedb0bfeed7c73e67c4d4df14557e9))
+
 ## [1.1.2](https://github.com/first-fluke/oh-my-agent/compare/action-v1.1.1...action-v1.1.2) (2026-04-24)
 
 
